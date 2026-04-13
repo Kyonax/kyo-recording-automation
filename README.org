@@ -46,7 +46,7 @@
 </div>
 
 <h1 align="right">
-[OBS] Capture-Time Automation Toolkit for Kyonax Content Creation
+Capture-Time Automation Toolkit for Kyonax Content Creation [OBS] 
 </h1>
 #+END_HTML
 
