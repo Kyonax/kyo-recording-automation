@@ -1,13 +1,3 @@
-#+AUTHOR: [[https://orcid.org/0009-0006-4459-5538][Cristian D. Moreno - Kyonax]]
-#+EMAIL: kyonax.corp@gmail.com
-#+DATE: Apr 13, 2026
-#+FILETAGS: :KYO:OBS:AUTOMATION:CONTENT:
-#+LAST_UPDATE: Apr 13, 2026
-
-#+BEGIN_HTML
-<div align="left">
-<table align="center"><tr><td>
-<pre>
 ░░████▓▓▒▒▓▓▒▒████░▒                                                               
 ▓█████████▓█████████░░                                                             
 ▓█▒█████▒███████████████                                                           
@@ -25,28 +15,3 @@
 ▓███░   ░   ▒   ▒ ░░ ░ ░   ░      ░ ░ ░ ▒ ░▒   ░░██                              
 ▓███REC░ ░   ░   ░ 京 TOOLKIT 京 ░ ░         ░░●██░░                              
 ░▒█████████████████████▒▒▒███████████████████████ 
-</pre>
-<p align="center">
-[OBS] Capture-Time Automation Toolkit for Kyonax Content Creation
-</p>
-</td></tr></table>
-</div>
-#+END_HTML
-
-* OBS Capture-Time Automation Toolkit for Kyonax Content Creation
-Cyberpunk HUD overlays, scene configs, and OBS WebSocket scripts, a capture-time automation toolkit built to eliminate post-production work across every Kyonax content creation brand (=@kyonax_on_tech=, =@is.kyonax=, =CCS=, and any future channel under the Kyonax identity).
-
-OBS automation toolkit for every *[[https://github.com/kyonax][Kyonax]]* content creation brand, overlays, scene configs, and scripts to get it right at capture time and skip the editing.
-
-Structure is scoped per brand, every Kyonax content creation identity gets its own top-level folder with the same four-component layout. Add a new folder to onboard a new brand.
-
-#+BEGIN_EXAMPLE
-kyo-recording-automation/
-  @kyonax_on_tech/      <- brand folder (one per content creation identity)
-    assets/             <- reference images
-    overlays/           <- HTML/CSS/JS browser source overlays
-    scripts/            <- OBS WebSocket automation
-    config/             <- scene collections & profiles
-  @is.kyonax/           <- (planned) same four-component layout
-  ...
-#+END_EXAMPLE
