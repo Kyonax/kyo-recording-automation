@@ -27,9 +27,6 @@
 ░▒█████████████████████▒▒▒███████████████████████
 </pre>
 </td></tr></table>
-<h1 align="center">
-[OBS] Capture-Time Automation Toolkit for Kyonax Content Creation
-</h1>
 </div>
 
 <div align="center">
@@ -47,6 +44,10 @@
   <img src="https://img.shields.io/twitter/follow/kyonax_on_tech.png" alt="X followers">
 </a>
 </div>
+
+<h1 align="right">
+[OBS] Capture-Time Automation Toolkit for Kyonax Content Creation
+</h1>
 #+END_HTML
 
 Cyberpunk HUD overlays, scene configs, and OBS WebSocket scripts, a capture-time automation toolkit built to eliminate post-production work across every Kyonax content creation brand (=@kyonax_on_tech=, =@is.kyonax=, =CCS=, and any future channel under the Kyonax identity).
