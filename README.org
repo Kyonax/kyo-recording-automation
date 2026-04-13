@@ -26,14 +26,29 @@
 ▓███REC░ ░   ░   ░ 京 TOOLKIT 京 ░ ░         ░░●██░░
 ░▒█████████████████████▒▒▒███████████████████████
 </pre>
-<p align="center">
-[OBS] Capture-Time Automation Toolkit for Kyonax Content Creation
-</p>
 </td></tr></table>
+<strong align="center">
+[OBS] Capture-Time Automation Toolkit for Kyonax Content Creation
+</strong>
+</div>
+
+<div align="center">
+<a href="https://github.com/Kyonax/kyo-recording-automation">
+  <img src="https://img.shields.io/github/languages/top/Kyonax/kyo-recording-automation.png" alt="Top language">
+</a>
+<br>
+<a href="https://github.com/Kyonax">
+  <img src="https://img.shields.io/github/followers/Kyonax.png" alt="GitHub followers">
+</a>
+<a href="https://github.com/Kyonax/kyo-recording-automation">
+  <img src="https://img.shields.io/github/stars/Kyonax/kyo-recording-automation.png" alt="GitHub stars">
+</a>
+<a href="https://x.com/kyonax_on_tech">
+  <img src="https://img.shields.io/twitter/follow/kyonax_on_tech.png" alt="X followers">
+</a>
 </div>
 #+END_HTML
 
-* OBS Capture-Time Automation Toolkit for Kyonax Content Creation
 Cyberpunk HUD overlays, scene configs, and OBS WebSocket scripts, a capture-time automation toolkit built to eliminate post-production work across every Kyonax content creation brand (=@kyonax_on_tech=, =@is.kyonax=, =CCS=, and any future channel under the Kyonax identity).
 
 OBS automation toolkit for every *[[https://github.com/kyonax][Kyonax]]* content creation brand, overlays, scene configs, and scripts to get it right at capture time and skip the editing.
