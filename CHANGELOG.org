@@ -1,0 +1,28 @@
+#+TITLE: RECKIT Changelog
+#+AUTHOR: [[https://orcid.org/0009-0006-4459-5538][Cristian D. Moreno - Kyonax]]
+#+EMAIL: kyonax.corp@gmail.com
+#+DATE: Apr 13, 2026
+#+FILETAGS: :KYO:RECKIT:CHANGELOG:
+#+LAST_UPDATE: Apr 13, 2026
+#+OPTIONS: toc:nil num:nil H:4
+
+* [Unreleased]
+
+* [v0.1] — 2026-04-13 :: Brand Bootstrap
+** Added
+- *RECKIT* identity (*R*ealtime · *E*dit-free · *C*apture · *K*yonax · *I*ntegrated · *T*oolkit)
+- ASCII HUD logo (=.github/logo.txt=, figlet Bloody font)
+- =README.org=: centered logo, acronym tagline, six badges (language, X, YouTube, followers, stars, CCS), "What is RECKIT?" section, directory tree
+- CCS · devhub badge with base64-embedded SVG logo (vectorized via potrace from PNG)
+- =.gitattributes=: UTF-8 + LF enforcement on =logo.txt=
+- =#+VERSION: v0.1= in README, =v0.1= in logo bottom border
+- =CHANGELOG.org=
+- =@kyonax_on_tech/assets/= scaffold
+
+** Decided
+- Edit-minimization is the single ship/no-ship gate
+- Per-brand folder structure (=@handle/assets|overlays|scripts|config=)
+- Brand-agnostic: supports all Kyonax content creation identities
+- Minimal README style
+- Semver =0.x[.y]= versioning, git tag is authoritative
+- CCS canonical SVG at =ccs-devhub/.github/assets/logo.svg=

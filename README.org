@@ -1,7 +1,8 @@
 #+AUTHOR: [[https://orcid.org/0009-0006-4459-5538][Cristian D. Moreno - Kyonax]]
 #+EMAIL: kyonax.corp@gmail.com
 #+DATE: Apr 13, 2026
-#+FILETAGS: :KYO:OBS:AUTOMATION:CONTENT:
+#+FILETAGS: :KYO:RECKIT:OBS:AUTOMATION:CONTENT:
+#+VERSION: v0.1
 #+LAST_UPDATE: Apr 13, 2026
 
 #+BEGIN_HTML
@@ -22,7 +23,7 @@
 ▓█▒█▓▓ ░██▓ ▒██▒░▒████▒▒ ▓███▀ ░▒██▒ █▄░██░  ░▒██▒ ░  ░▒▓░
 ▓█▓█▓▓░ ▒▓ ░▒▓░░░ ▒░ ░░ ░▒ ▒  ░▒ ▒▒ ▓▒░▓    ▒ ░░ ▒░ ░░ ▓▓
 ▓█▓▓▓▒  ░▒ ░ ▒░ ░ ░  ░  ░  ▒░  ░ ░▒ ▒░ ▒ ░    ░  ░▒  ░▓▓
-░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░
+░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░v0.1
 </pre>
 </td></tr></table>
 </div>
@@ -34,22 +35,25 @@
 </div>
 
 <div align="center">
+<a href="https://github.com/ccs-devhub"><img src="https://img.shields.io/badge/CCS-devhub-000000?logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0gMjcgMjAwIGwgMCAxNzMgMTczIDAgMTczIDAgMCAtMTczIDAgLTE3MyAtMTczIDAgLTE3MyAwIDAgMTczIHogbSAzMzIgMCBsIDAgMTU5IC0xNTkuNSAwIC0xNTkuNSAwIDAgLTE1OSAwIC0xNTkgMTU5LjUgMCAxNTkuNSAwIDAgMTU5IHogTSA1MiAxMjAgbCAwIDY4IDQ4IDAgNDggMCAwIC0yMCAwIC0yMCA1MS41IDAgNTEuNSAwIDAgMjAgMCAyMCAyMS41IDAgMjEuNSAwIDAgLTQxLjUgMCAtNDEuNSAtOTQuNSAwIC05NC41IDAgMCAyMCAwIDIwIC01IDAgLTUgMCAwIC0yNSAwIC0yNSAxMDUgMCAxMDUgMCAwIDUxLjUgMCA1MS41IC0xMjYuNSAwIC0xMjYuNSAwIDAgNDggMCA0OCAxMjYuMyAwLjIgMTI2LjIgMC4zIDAuMyA1LjMgMC4zIDUuMiAtMTI2LjUgMCAtMTI2LjYgMCAwIDIxLjUgMCAyMS41IDE0OCAwIDE0OCAwIDAgLTQ4IDAgLTQ4IC0xMjYuMiAtMC4yIC0xMjYuMyAtMC4zIC0wLjMgLTUuMyAtMC4zIC01LjIgMTI2LjUgMCAxMjYuNiAwIDAgLTk0LjUgMCAtOTQuNSAtMTQ4IDAgLTE0OCAwIDAgNjggeiBNIDE1OSAxNzMuNSBsIDAgMTQuNSA0MSAwIDQxIDAgMCAtMTQuNSAwIC0xNC41IC00MSAwIC00MSAwIDAgMTQuNSB6Ii8+PC9zdmc+&labelColor=FFD700&logoColor=000000" alt="Cyber Code Syndicate"></a>
+</div>
+
+<div align="center">
 <a href="#"><img src="https://img.shields.io/github/languages/top/Kyonax/kyo-recording-automation" alt="Top language"></a>
 <br>
 <a href="https://x.com/kyonax_on_tech">
   <img src="https://img.shields.io/twitter/follow/kyonax_on_tech" alt="X followers">
+</a>
+<a href="https://www.youtube.com/channel/UCrNDk3dbrDQL9CWd1_fjyvA">
+  <img src="https://img.shields.io/youtube/channel/subscribers/UCrNDk3dbrDQL9CWd1_fjyvA" alt="YouTube Channel Subscribers">
 </a>
 <a href="#"><img src="https://img.shields.io/github/followers/Kyonax" alt="GitHub followers"></a>
 <a href="#"><img src="https://img.shields.io/github/stars/Kyonax/kyo-recording-automation" alt="GitHub Repo stars"></a>
 </div>
 #+END_HTML
 
-* What is RECKIT? 
-Cyberpunk HUD overlays, scene configs, and OBS WebSocket scripts, a capture-time automation toolkit built to eliminate post-production work across every Kyonax content creation brand (=@kyonax_on_tech=, =@is.kyonax=, =CCS=, and any future channel under the Kyonax identity).
-
-OBS automation toolkit for every *[[https://github.com/kyonax][Kyonax]]* content creation brand, overlays, scene configs, and scripts to get it right at capture time and skip the editing.
-
-Structure is scoped per brand, every Kyonax content creation identity gets its own top-level folder with the same four-component layout. Add a new folder to onboard a new brand.
+* What is RECKIT?
+An OBS toolkit that does the editing /at capture time/. RECKIT bundles cyberpunk HUD overlays, scene collections, and WebSocket automation scripts into one per-brand system, scoped for every *[[https://github.com/kyonax][Kyonax]]* content creation identity (=@kyonax_on_tech=, =@is.kyonax=, =CCS=, and any future channel under the Kyonax umbrella).
 
 #+BEGIN_EXAMPLE
 kyo-recording-automation/
