@@ -35,20 +35,20 @@
 </div>
 
 <div align="center">
-<a href="#"><img src="https://img.shields.io/github/languages/top/Kyonax/kyo-recording-automation" alt="Top language"></a>
+<a href="#"><img src="https://img.shields.io/github/languages/top/Kyonax/reckit" alt="Top language"></a>
 <a href="#"><img src="https://img.shields.io/badge/license-MPL--2.0-blue" alt="MPL-2.0"></a>
 <a href="#"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="Apache-2.0"></a>
 <a href="#"><img src="https://img.shields.io/badge/version-v0.1-FFD700?labelColor=000000" alt="v0.1"></a>
 <a href="https://github.com/ccs-devhub"><img src="https://img.shields.io/badge/CCS_Member-FFE564?&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIj48cGF0aCBmaWxsPSIjOUI4MjAwIiBkPSJNIDI3IDIwMCBsIDAgMTczIDE3MyAwIDE3MyAwIDAgLTE3MyAwIC0xNzMgLTE3MyAwIC0xNzMgMCAwIDE3MyB6IG0gMzMyIDAgbCAwIDE1OSAtMTU5LjUgMCAtMTU5LjUgMCAwIC0xNTkgMCAtMTU5IDE1OS41IDAgMTU5LjUgMCAwIDE1OSB6IE0gNTIgMTIwIGwgMCA2OCA0OCAwIDQ4IDAgMCAtMjAgMCAtMjAgNTEuNSAwIDUxLjUgMCAwIDIwIDAgMjAgMjEuNSAwIDIxLjUgMCAwIC00MS41IDAgLTQxLjUgLTk0LjUgMCAtOTQuNSAwIDAgMjAgMCAyMCAtNSAwIC01IDAgMCAtMjUgMCAtMjUgMTA1IDAgMTA1IDAgMCA1MS41IDAgNTEuNSAtMTI2LjUgMCAtMTI2LjUgMCAwIDQ4IDAgNDggMTI2LjMgMC4yIDEyNi4yIDAuMyAwLjMgNS4zIDAuMyA1LjIgLTEyNi41IDAgLTEyNi42IDAgMCAyMS41IDAgMjEuNSAxNDggMCAxNDggMCAwIC00OCAwIC00OCAtMTI2LjIgLTAuMiAtMTI2LjMgLTAuMyAtMC4zIC01LjMgLTAuMyAtNS4yIDEyNi41IDAgMTI2LjYgMCAwIC05NC41IDAgLTk0LjUgLTE0OCAwIC0xNDggMCAwIDY4IHogTSAxNTkgMTczLjUgbCAwIDE0LjUgNDEgMCA0MSAwIDAgLTE0LjUgMCAtMTQuNSAtNDEgMCAtNDEgMCAwIDE0LjUgeiIvPjwvc3ZnPg==&labelColor=FFD400&style=flat-square" alt="Cyber Code Syndicate"></a>
 <br>
 <a href="https://x.com/kyonax_on_tech">
-  <img src="https://img.shields.io/twitter/follow/kyonax_on_tech" alt="X followers">
+  <img src="https://img.shields.io/twitter/follow/kyonax_on_tech?labelColor=FFD400&color=FFE564" alt="X followers">
 </a>
 <a href="https://www.youtube.com/channel/UCrNDk3dbrDQL9CWd1_fjyvA">
-  <img src="https://img.shields.io/youtube/channel/subscribers/UCrNDk3dbrDQL9CWd1_fjyvA" alt="YouTube Channel Subscribers">
+  <img src="https://img.shields.io/youtube/channel/subscribers/UCrNDk3dbrDQL9CWd1_fjyvA?labelColor=FFD400&color=FFE564" alt="YouTube Channel Subscribers">
 </a>
-<a href="#"><img src="https://img.shields.io/github/followers/Kyonax" alt="GitHub followers"></a>
-<a href="#"><img src="https://img.shields.io/github/stars/Kyonax/kyo-recording-automation" alt="GitHub Repo stars"></a>
+<a href="#"><img src="https://img.shields.io/github/followers/Kyonax?labelColor=FFD400&color=FFE564" alt="GitHub followers"></a>
+<a href="#"><img src="https://img.shields.io/github/stars/Kyonax/reckit?labelColor=FFD400&color=FFE564" alt="GitHub Repo stars"></a>
 </div>
 #+END_HTML
 
@@ -56,7 +56,7 @@
 An OBS toolkit that does the editing /at capture time/. RECKIT bundles cyberpunk HUD overlays, scene collections, and WebSocket automation scripts into one per-brand system, scoped for every *[[https://github.com/kyonax][Kyonax]]* content creation identity (=@kyonax_on_tech=, =@is.kyonax=, =CCS=, and any future channel under the Kyonax umbrella).
 
 #+BEGIN_EXAMPLE
-kyo-recording-automation/
+reckit/
   @kyonax_on_tech/      <- brand folder (one per content creation identity)
     assets/             <- reference images
     overlays/           <- HTML/CSS/JS browser source overlays
@@ -66,10 +66,9 @@ kyo-recording-automation/
   ...
 #+END_EXAMPLE
 
-** PROJECT FILEs
-- [[file:LICENSE][LICENSE]] / [[file:LICENSE-APACHE][LICENSE-APACHE]] — dual-licensed MPL-2.0 + Apache-2.0 (see [[file:LICENSING.org][LICENSING.org]] for per-file guide)
-- [[file:NOTICE][NOTICE]] — attribution, must travel with all redistributions
-- [[file:CHANGELOG.org][CHANGELOG.org]] — version history
-- [[file:eslint.config.mjs][eslint.config.mjs]] — code style based on [[https://github.com/ccs-devhub][CCS]] standards
-- [[file:.github/SECURITY.org][.github/SECURITY.org]] — banned patterns and enforcement
-- [[file:.github/CODEOWNERS][.github/CODEOWNERS]] — all changes require review from =@Kyonax=
+** CONTRIBUTING
+This project is dual-licensed under the [[file:LICENSE][MPL-2.0]] and [[file:LICENSE-APACHE][Apache-2.0]] licenses. See [[file:LICENSING.org][LICENSING.org]] for which applies to each file and how to add headers. The [[file:NOTICE][NOTICE]] file must be included in all redistributions.
+
+For information on reporting security vulnerabilities or banned code patterns, see [[file:.github/SECURITY.org][SECURITY.org]].
+
+Code style follows [[https://github.com/ccs-devhub][CCS]] standards, enforced via [[file:eslint.config.mjs][eslint.config.mjs]]. All changes require review from =@Kyonax= (see [[file:.github/CODEOWNERS][CODEOWNERS]]). Version history is tracked in [[file:CHANGELOG.org][CHANGELOG.org]].
