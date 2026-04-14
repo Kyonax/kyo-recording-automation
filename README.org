@@ -35,20 +35,20 @@
 </div>
 
 <div align="center">
-<a href="https://github.com/ccs-devhub"><img src="https://img.shields.io/badge/CCS-devhub-000000?logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0gMjcgMjAwIGwgMCAxNzMgMTczIDAgMTczIDAgMCAtMTczIDAgLTE3MyAtMTczIDAgLTE3MyAwIDAgMTczIHogbSAzMzIgMCBsIDAgMTU5IC0xNTkuNSAwIC0xNTkuNSAwIDAgLTE1OSAwIC0xNTkgMTU5LjUgMCAxNTkuNSAwIDAgMTU5IHogTSA1MiAxMjAgbCAwIDY4IDQ4IDAgNDggMCAwIC0yMCAwIC0yMCA1MS41IDAgNTEuNSAwIDAgMjAgMCAyMCAyMS41IDAgMjEuNSAwIDAgLTQxLjUgMCAtNDEuNSAtOTQuNSAwIC05NC41IDAgMCAyMCAwIDIwIC01IDAgLTUgMCAwIC0yNSAwIC0yNSAxMDUgMCAxMDUgMCAwIDUxLjUgMCA1MS41IC0xMjYuNSAwIC0xMjYuNSAwIDAgNDggMCA0OCAxMjYuMyAwLjIgMTI2LjIgMC4zIDAuMyA1LjMgMC4zIDUuMiAtMTI2LjUgMCAtMTI2LjYgMCAwIDIxLjUgMCAyMS41IDE0OCAwIDE0OCAwIDAgLTQ4IDAgLTQ4IC0xMjYuMiAtMC4yIC0xMjYuMyAtMC4zIC0wLjMgLTUuMyAtMC4zIC01LjIgMTI2LjUgMCAxMjYuNiAwIDAgLTk0LjUgMCAtOTQuNSAtMTQ4IDAgLTE0OCAwIDAgNjggeiBNIDE1OSAxNzMuNSBsIDAgMTQuNSA0MSAwIDQxIDAgMCAtMTQuNSAwIC0xNC41IC00MSAwIC00MSAwIDAgMTQuNSB6Ii8+PC9zdmc+&labelColor=FFD700&logoColor=000000" alt="Cyber Code Syndicate"></a>
-</div>
-
-<div align="center">
-<a href="#"><img src="https://img.shields.io/github/languages/top/Kyonax/kyo-recording-automation" alt="Top language"></a>
+<a href="#"><img src="https://img.shields.io/github/languages/top/Kyonax/kyo-recording-automation?style=flat-square" alt="Top language"></a>
+<a href="#"><img src="https://img.shields.io/badge/license-MPL--2.0-blue?style=flat-square" alt="MPL-2.0"></a>
+<a href="#"><img src="https://img.shields.io/badge/license-Apache--2.0-blue?style=flat-square" alt="Apache-2.0"></a>
+<a href="#"><img src="https://img.shields.io/badge/version-v0.1-FFD700?style=flat-square&labelColor=000000" alt="v0.1"></a>
+<a href="https://github.com/ccs-devhub"><img src="https://img.shields.io/badge/CCS_Member-FFE564?&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIj48cGF0aCBmaWxsPSIjOUI4MjAwIiBkPSJNIDI3IDIwMCBsIDAgMTczIDE3MyAwIDE3MyAwIDAgLTE3MyAwIC0xNzMgLTE3MyAwIC0xNzMgMCAwIDE3MyB6IG0gMzMyIDAgbCAwIDE1OSAtMTU5LjUgMCAtMTU5LjUgMCAwIC0xNTkgMCAtMTU5IDE1OS41IDAgMTU5LjUgMCAwIDE1OSB6IE0gNTIgMTIwIGwgMCA2OCA0OCAwIDQ4IDAgMCAtMjAgMCAtMjAgNTEuNSAwIDUxLjUgMCAwIDIwIDAgMjAgMjEuNSAwIDIxLjUgMCAwIC00MS41IDAgLTQxLjUgLTk0LjUgMCAtOTQuNSAwIDAgMjAgMCAyMCAtNSAwIC01IDAgMCAtMjUgMCAtMjUgMTA1IDAgMTA1IDAgMCA1MS41IDAgNTEuNSAtMTI2LjUgMCAtMTI2LjUgMCAwIDQ4IDAgNDggMTI2LjMgMC4yIDEyNi4yIDAuMyAwLjMgNS4zIDAuMyA1LjIgLTEyNi41IDAgLTEyNi42IDAgMCAyMS41IDAgMjEuNSAxNDggMCAxNDggMCAwIC00OCAwIC00OCAtMTI2LjIgLTAuMiAtMTI2LjMgLTAuMyAtMC4zIC01LjMgLTAuMyAtNS4yIDEyNi41IDAgMTI2LjYgMCAwIC05NC41IDAgLTk0LjUgLTE0OCAwIC0xNDggMCAwIDY4IHogTSAxNTkgMTczLjUgbCAwIDE0LjUgNDEgMCA0MSAwIDAgLTE0LjUgMCAtMTQuNSAtNDEgMCAtNDEgMCAwIDE0LjUgeiIvPjwvc3ZnPg==&labelColor=FFD400&style=flat-square" alt="Cyber Code Syndicate"></a>
 <br>
 <a href="https://x.com/kyonax_on_tech">
-  <img src="https://img.shields.io/twitter/follow/kyonax_on_tech" alt="X followers">
+  <img src="https://img.shields.io/twitter/follow/kyonax_on_tech?style=flat-square" alt="X followers">
 </a>
 <a href="https://www.youtube.com/channel/UCrNDk3dbrDQL9CWd1_fjyvA">
-  <img src="https://img.shields.io/youtube/channel/subscribers/UCrNDk3dbrDQL9CWd1_fjyvA" alt="YouTube Channel Subscribers">
+  <img src="https://img.shields.io/youtube/channel/subscribers/UCrNDk3dbrDQL9CWd1_fjyvA?style=flat-square" alt="YouTube Channel Subscribers">
 </a>
-<a href="#"><img src="https://img.shields.io/github/followers/Kyonax" alt="GitHub followers"></a>
-<a href="#"><img src="https://img.shields.io/github/stars/Kyonax/kyo-recording-automation" alt="GitHub Repo stars"></a>
+<a href="#"><img src="https://img.shields.io/github/followers/Kyonax?style=flat-square" alt="GitHub followers"></a>
+<a href="#"><img src="https://img.shields.io/github/stars/Kyonax/kyo-recording-automation?style=flat-square" alt="GitHub Repo stars"></a>
 </div>
 #+END_HTML
 
@@ -65,3 +65,16 @@ kyo-recording-automation/
   @is.kyonax/           <- (planned) same four-component layout
   ...
 #+END_EXAMPLE
+
+* Project files
+
+| File           | Purpose                                                   |
+|----------------+-----------------------------------------------------------|
+| [[file:LICENSE][LICENSE]]        | MPL-2.0 (default license)                                 |
+| [[file:LICENSE-APACHE][LICENSE-APACHE]] | Apache-2.0 (permissive option)                            |
+| [[file:LICENSING.org][LICENSING.org]]  | Dual-license guide — when to use which + file headers     |
+| [[file:NOTICE][NOTICE]]         | Attribution notice — must travel with all redistributions |
+| [[file:CHANGELOG.org][CHANGELOG.org]]  | Version history                                           |
+| [[file:.github/SECURITY.org][SECURITY]]       | Banned code patterns and enforcement                      |
+| [[file:.github/CODEOWNERS][CODEOWNERS]]     | All changes require review from =@Kyonax=                   |
+| [[file:eslint.config.mjs][ESLint]]         | Code style rules based on [[https://github.com/ccs-devhub][CCS]] standards              |

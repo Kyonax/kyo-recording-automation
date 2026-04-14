@@ -1,0 +1,63 @@
+# ---------------------------------------------------------------
+# RECKIT Release Gate -- Enforced on dev -> master PRs
+# ---------------------------------------------------------------
+# Ensures CHANGELOG.org and README.org version are updated before
+# any code lands on master.
+# ---------------------------------------------------------------
+
+name: Release Gate
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  release-checks:
+    name: Release Checks
+    # Only run when the source branch is dev
+    if: github.head_ref == 'dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: diff
+        run: |
+          CHANGED=$(git diff --name-only origin/master...HEAD)
+          echo "$CHANGED"
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Check CHANGELOG.org was updated
+        run: |
+          if echo "${{ steps.diff.outputs.files }}" | grep -qx "CHANGELOG.org"; then
+            echo "CHANGELOG.org was modified."
+          else
+            echo "::error::CHANGELOG.org was NOT modified. Every release PR (dev -> master) must include CHANGELOG updates."
+            exit 1
+          fi
+
+      - name: Check README.org version was bumped
+        run: |
+          # Compare the #+VERSION: line between master and this PR
+          MASTER_VERSION=$(git show origin/master:README.org | grep -m1 '^#+VERSION:' || echo "")
+          PR_VERSION=$(grep -m1 '^#+VERSION:' README.org || echo "")
+
+          echo "master: $MASTER_VERSION"
+          echo "PR:     $PR_VERSION"
+
+          if [ -z "$PR_VERSION" ]; then
+            echo "::error::README.org does not contain a #+VERSION: line."
+            exit 1
+          fi
+
+          if [ "$MASTER_VERSION" = "$PR_VERSION" ]; then
+            echo "::error::#+VERSION: in README.org was NOT updated. Bump the version before merging to master."
+            exit 1
+          fi
+
+          echo "README.org version was updated."

@@ -1,0 +1,16 @@
+#+TITLE: RECKIT Security Rules
+#+AUTHOR: [[https://orcid.org/0009-0006-4459-5538][Cristian D. Moreno - Kyonax]]
+
+* Banned patterns
+| Pattern                                   | Reason             |
+|-------------------------------------------+--------------------|
+| =eval()=, =Function()=                        | Code injection     |
+| =innerHTML= assignment                      | XSS vector         |
+| =document.write=                            | XSS vector         |
+| =setTimeout= / =setInterval= with string args | Implicit eval      |
+| Hardcoded tokens, secrets, API keys       | Credential leak    |
+| =http://= URLs                              | Insecure transport |
+
+* Enforced by
+- =eslint.config.mjs= — =no-eval=, =no-implied-eval=, =no-new-func=, =eslint-plugin-security=, =no-restricted-syntax= (innerHTML, document.write)
+- =.github/workflows/ci.yml= — security scan job greps for all banned patterns on every PR

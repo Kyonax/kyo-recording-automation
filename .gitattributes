@@ -1,7 +1,7 @@
 # Preserve box-drawing characters and line endings in the brand logo.
 # Windows clones would otherwise apply CRLF conversion and potentially
 # corrupt the Unicode frame glyphs.
-.github/logo.txt    text eol=lf working-tree-encoding=UTF-8
+.github/assets/logo.txt    text eol=lf working-tree-encoding=UTF-8
 
 # Default: normalize text files to LF in the repo, auto-convert on checkout.
 * text=auto

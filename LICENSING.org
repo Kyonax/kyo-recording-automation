@@ -1,0 +1,43 @@
+#+TITLE: RECKIT Licensing Guide
+#+AUTHOR: [[https://orcid.org/0009-0006-4459-5538][Cristian D. Moreno - Kyonax]]
+
+* How it works
+Every file in this project is either *MPL-2.0* or *Apache-2.0*, declared by its header.
+
+- *MPL-2.0* (default) — copyleft: modifications must be shared under MPL
+- *Apache-2.0* — permissive: free to use, no copyleft
+
+Both require attribution to =Cristian D. Moreno — @Kyonax=.
+
+* When to use which
+| Use case                                          | License    |
+|---------------------------------------------------+------------|
+| Core automation logic you want protected          | MPL-2.0    |
+| Overlay templates others should freely remix      | Apache-2.0 |
+| OBS WebSocket scripts with proprietary techniques | MPL-2.0    |
+| Config examples, sample scenes, starter files     | Apache-2.0 |
+| Anything you want modifications shared back       | MPL-2.0    |
+| Anything you want maximally open                  | Apache-2.0 |
+
+* File headers
+** MPL-2.0 (copyleft)
+Add this at the top of the file:
+
+#+BEGIN_EXAMPLE
+Copyright (c) 2026 Cristian D. Moreno — @Kyonax
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#+END_EXAMPLE
+
+** Apache-2.0 (permissive)
+Add this at the top of the file:
+
+#+BEGIN_EXAMPLE
+Copyright (c) 2026 Cristian D. Moreno — @Kyonax
+Licensed under the Apache License, Version 2.0.
+You may obtain a copy at https://www.apache.org/licenses/LICENSE-2.0
+#+END_EXAMPLE
+
+* No header?
+If a file has no header, MPL-2.0 applies (project default).

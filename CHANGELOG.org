@@ -3,7 +3,7 @@
 #+EMAIL: kyonax.corp@gmail.com
 #+DATE: Apr 13, 2026
 #+FILETAGS: :KYO:RECKIT:CHANGELOG:
-#+LAST_UPDATE: Apr 13, 2026
+#+LAST_UPDATE: Apr 14, 2026
 #+OPTIONS: toc:nil num:nil H:4
 
 * [Unreleased]
@@ -18,6 +18,18 @@
 - =#+VERSION: v0.1= in README, =v0.1= in logo bottom border
 - =CHANGELOG.org=
 - =@kyonax_on_tech/assets/= scaffold
+- Dual license: MPL-2.0 (default) + Apache-2.0 (permissive)
+- =LICENSE=, =LICENSE-APACHE=, =LICENSING.org=, =NOTICE=
+- =eslint.config.mjs= — CCS code standards adapted for browser JS
+- =package.json= — =@kyonax/reckit= with SPDX =(MPL-2.0 OR Apache-2.0)=
+- =.github/workflows/ci.yml= — ESLint, security scan, license headers, protected files
+- =.github/workflows/release.yml= — CHANGELOG + version gate on dev → master PRs
+- =.github/CODEOWNERS= — all changes require =@Kyonax= review
+- =.github/SECURITY.org= — banned patterns reference
+- =.github/PULL_REQUEST_TEMPLATE.md= — PR checklist
+- =.gitignore=
+- Logo moved to =.github/assets/logo.txt=
+- Project files table in README
 
 ** Decided
 - Edit-minimization is the single ship/no-ship gate
@@ -26,3 +38,8 @@
 - Minimal README style
 - Semver =0.x[.y]= versioning, git tag is authoritative
 - CCS canonical SVG at =ccs-devhub/.github/assets/logo.svg=
+- Dual license MPL-2.0 / Apache-2.0, per-file header declares which
+- Attribution required on both licenses (=NOTICE= file)
+- shields.io badges: SVG only (no =.png=), =flat-square= style, custom logos must hardcode fill color (=logoColor= unreliable for data-URI SVGs)
+- No direct pushes to master, all changes via PR from dev
+- ESLint rules follow CCS standards (not project-specific references)

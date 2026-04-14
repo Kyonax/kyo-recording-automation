@@ -1,0 +1,56 @@
+{
+  "name": "@kyonax/reckit",
+  "version": "0.1.0",
+  "description": "RECKIT — Realtime Edit-free Capture Kyonax Integrated Toolkit",
+  "author": {
+    "name": "Cristian D. Moreno - Kyonax",
+    "url": "https://github.com/kyonax"
+  },
+  "maintainers": [
+    {
+      "name": "Cristian D. Moreno - Kyonax",
+      "url": "https://orcid.org/0009-0006-4459-5538"
+    }
+  ],
+  "license": "(MPL-2.0 OR Apache-2.0)",
+  "homepage": "https://github.com/Kyonax/kyo-recording-automation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kyonax/kyo-recording-automation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kyonax/kyo-recording-automation/issues"
+  },
+  "keywords": [
+    "obs",
+    "obs-studio",
+    "obs-websocket",
+    "recording-automation",
+    "browser-source",
+    "hud-overlay",
+    "capture-time",
+    "content-creation",
+    "kyonax",
+    "reckit",
+    "ccs"
+  ],
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^50.6.3",
+    "eslint-plugin-prefer-optional-chaining": "^3.5.0",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unicorn": "^56.0.1",
+    "globals": "^15.14.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

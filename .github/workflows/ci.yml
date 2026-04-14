@@ -1,0 +1,173 @@
+# ---------------------------------------------------------------
+# RECKIT CI -- Lint, Security Scan, License & Protected-File Gates
+# ---------------------------------------------------------------
+# Runs on every pull request targeting master or dev.
+# ---------------------------------------------------------------
+
+name: CI
+
+on:
+  pull_request:
+    branches: [master, dev]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  # ── ESLint ────────────────────────────────────────────────────
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for JS/TS files
+        id: has_js
+        run: |
+          if find . -type f \( -name '*.js' -o -name '*.mjs' -o -name '*.ts' \) \
+               ! -path './node_modules/*' ! -path './dist/*' | grep -q .; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Node
+        if: steps.has_js.outputs.found == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        if: steps.has_js.outputs.found == 'true'
+        run: npm ci
+
+      - name: Run ESLint
+        if: steps.has_js.outputs.found == 'true'
+        run: npm run lint
+
+      - name: Skip -- no JS/TS files
+        if: steps.has_js.outputs.found == 'false'
+        run: echo "No JS/TS files found in repository -- skipping ESLint."
+
+  # ── Security Scan ─────────────────────────────────────────────
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Scan JS files for dangerous patterns
+        run: |
+          EXIT_CODE=0
+
+          echo "=== Scanning for dangerous function calls ==="
+          if grep -rn --include='*.js' --include='*.mjs' \
+               -E 'eval\(|[^.]Function\(|\.innerHTML\s*=|document\.write\(' .; then
+            echo "::error::Dangerous function calls detected (eval, Function, innerHTML, document.write)"
+            EXIT_CODE=1
+          fi
+
+          echo ""
+          echo "=== Scanning for setTimeout/setInterval with string arguments ==="
+          if grep -rn --include='*.js' --include='*.mjs' \
+               -E 'setTimeout\(\s*["\x27`]|setInterval\(\s*["\x27`]' .; then
+            echo "::error::setTimeout/setInterval called with string argument -- use a function reference instead"
+            EXIT_CODE=1
+          fi
+
+          echo ""
+          echo "=== Scanning for hardcoded tokens/secrets ==="
+          if grep -rn --include='*.js' --include='*.mjs' \
+               -iE '(token|secret|api_key|password|apikey|api_secret)\s*[=:]\s*["\x27`]' .; then
+            echo "::error::Possible hardcoded secret detected"
+            EXIT_CODE=1
+          fi
+
+          echo ""
+          echo "=== Scanning for insecure http:// URLs ==="
+          if grep -rn --include='*.js' --include='*.mjs' \
+               -E 'http://' . | grep -v 'localhost' | grep -v '127.0.0.1'; then
+            echo "::error::Insecure http:// URL detected -- use https:// instead"
+            EXIT_CODE=1
+          fi
+
+          if [ "$EXIT_CODE" -eq 0 ]; then
+            echo ""
+            echo "All security checks passed."
+          fi
+
+          exit $EXIT_CODE
+
+  # ── License Header Check ──────────────────────────────────────
+  license-headers:
+    name: License Headers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify copyright headers
+        run: |
+          EXIT_CODE=0
+          FILES=$(find . -type f \( -name '*.js' -o -name '*.mjs' -o -name '*.html' -o -name '*.css' \) \
+                    ! -path './node_modules/*' ! -path './dist/*' ! -path './.cache/*' ! -path './assets/*')
+
+          if [ -z "$FILES" ]; then
+            echo "No .js/.mjs/.html/.css files found -- nothing to check."
+            exit 0
+          fi
+
+          for f in $FILES; do
+            HEADER=$(head -n 5 "$f")
+            if ! echo "$HEADER" | grep -q "Cristian D. Moreno"; then
+              echo "::error file=$f::Missing copyright header (\"Cristian D. Moreno\" not in first 5 lines)"
+              EXIT_CODE=1
+            fi
+          done
+
+          if [ "$EXIT_CODE" -eq 0 ]; then
+            echo "All files contain the required copyright header."
+          fi
+
+          exit $EXIT_CODE
+
+  # ── Protected Files Check ─────────────────────────────────────
+  protected-files:
+    name: Protected Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for protected file modifications
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROTECTED_FILES="LICENSE LICENSE-APACHE NOTICE CHANGELOG.org"
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD 2>/dev/null || echo "")
+          WARNINGS=""
+
+          for pf in $PROTECTED_FILES; do
+            if echo "$CHANGED" | grep -qx "$pf"; then
+              WARNINGS="${WARNINGS}- \`${pf}\` was modified\n"
+            fi
+          done
+
+          if [ -n "$WARNINGS" ]; then
+            COMMENT="## Protected Files Modified\n\nThe following protected files were changed in this PR:\n\n${WARNINGS}\nPlease ensure these changes are intentional and have been reviewed carefully."
+            echo -e "$COMMENT"
+            echo "::warning::Protected files were modified in this PR -- review carefully"
+
+            # Post a PR comment if running in a pull request context
+            if [ -n "${{ github.event.pull_request.number }}" ]; then
+              gh pr comment "${{ github.event.pull_request.number }}" \
+                --body "$(echo -e "$COMMENT")" || true
+            fi
+          else
+            echo "No protected files were modified."
+          fi
