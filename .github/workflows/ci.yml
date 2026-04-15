@@ -1,18 +1,42 @@
 # ---------------------------------------------------------------
 # RECKIT CI -- Lint, Security Scan, License & Protected-File Gates
 # ---------------------------------------------------------------
-# Runs on every pull request targeting master or dev.
+# Triggers:
+#   - pull_request: ANY target branch. A PR from `sub-feature`
+#     to `feat-cam-person` runs the same gates as a PR to
+#     `dev` or `master`. This is intentional — every merge in
+#     the chain must meet the pre-check bar before reaching
+#     dev / master.
+#   - push: feature branches only (`feat-*`, `feat/*`,
+#     `feature/*`, `fix-*`, `fix/*`). Gives developers
+#     feedback before they open a PR. master / dev are skipped
+#     here because they're protected and only receive commits
+#     via PRs (which fire the pull_request trigger above).
 # ---------------------------------------------------------------
 
 name: CI
 
 on:
   pull_request:
-    branches: [master, dev]
+  push:
+    branches:
+      - 'feat-*'
+      - 'feat/**'
+      - 'feature/**'
+      - 'fix-*'
+      - 'fix/**'
+
+# Dedup rapid pushes and push-vs-PR duplicate runs on the same
+# ref. `head_ref` is the branch name for pull_request events;
+# `ref` is the branch ref for push events.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   # ── ESLint ────────────────────────────────────────────────────
@@ -220,4 +244,68 @@ jobs:
             fi
           else
             echo "No protected files were modified."
+          fi
+
+  # ── Unit Tests ────────────────────────────────────────────────
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vitest
+        run: npm run test
+
+  # ── Pre-Check Failure Label ───────────────────────────────────
+  # Aggregates the outcome of every gate above and keeps the
+  # "Pre-Check Failed" label on the PR in sync. Applied when any
+  # gate failed or was cancelled. Removed on clean runs.
+  pre-check-label:
+    name: Pre-Check Label
+    runs-on: ubuntu-latest
+    needs: [eslint, security-scan, license-headers, unit-tests]
+    if: always() && github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Sync "Pre-Check Failed" label
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          ESLINT_RESULT: ${{ needs.eslint.result }}
+          SECURITY_RESULT: ${{ needs.security-scan.result }}
+          LICENSE_RESULT: ${{ needs.license-headers.result }}
+          TESTS_RESULT: ${{ needs.unit-tests.result }}
+        run: |
+          echo "Gate outcomes:"
+          echo "  eslint          : $ESLINT_RESULT"
+          echo "  security-scan   : $SECURITY_RESULT"
+          echo "  license-headers : $LICENSE_RESULT"
+          echo "  unit-tests      : $TESTS_RESULT"
+
+          if [[ "$ESLINT_RESULT" != "success" ]] \
+             || [[ "$SECURITY_RESULT" != "success" ]] \
+             || [[ "$LICENSE_RESULT" != "success" ]] \
+             || [[ "$TESTS_RESULT" != "success" ]]; then
+            echo "::warning::One or more pre-checks failed -- applying 'Pre-Check Failed' label"
+            gh pr edit "$PR_NUMBER" \
+              --repo "$REPO" \
+              --add-label "Pre-Check Failed"
+          else
+            echo "All pre-checks passed -- removing 'Pre-Check Failed' label if present"
+            gh pr edit "$PR_NUMBER" \
+              --repo "$REPO" \
+              --remove-label "Pre-Check Failed" 2>/dev/null || true
           fi

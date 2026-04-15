@@ -197,6 +197,24 @@ export default [
       '**/*.spec.{js,mjs}',
       '**/__tests__/**/*.{js,mjs}',
     ],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...globals.browser,
+        // Vitest globals (enabled via `test.globals: true` in
+        // vite.config.js — no import needed inside tests).
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+      },
+    },
     rules: {
       'no-magic-numbers': 'off',
       'no-console': 'off',

@@ -16,6 +16,10 @@
 *** WEBSOCKETs [0/1]
 - [ ] Create the Websocket Item Explanation (Image, Title, Description, Optional Banners).
 
+** INFRASTRUCTURE [0/1]
+*** TESTING [0/1]
+- [ ] Set up an automated unit-test suite (Vitest recommended for Vite alignment). Cover composables first (=use-recording-status=, =use-audio-analyzer=, =use-scene-name=), then widgets (=audio-meter=, =live-readout=), then landing-page computed logic (search filter, brand tabs, preview modal scaling). Wire =npm run test= into the CI workflow.
+
 * [Unreleased]
 
 * [v0.3] — 2026-04-15 :: Vue App + CAM-LOG Overlay + Landing Index
