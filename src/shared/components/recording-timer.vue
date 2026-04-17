@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import StatusIndicator from './status-indicator.vue';
+import StatusIndicator from '@shared/components/status-indicator.vue';
 
 defineProps({
   is_recording: {

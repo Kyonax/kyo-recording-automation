@@ -39,6 +39,8 @@
  */
 
 import { createRequire } from 'node:module';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
@@ -46,9 +48,18 @@ import { defineConfig } from 'vite';
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
 
+const ROOT = dirname(fileURLToPath(import.meta.url));
 const DEV_SERVER_PORT = 5173;
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@shared': resolve(ROOT, 'src/shared'),
+      '@views': resolve(ROOT, 'src/views'),
+      '@app': resolve(ROOT, 'src/app'),
+      '@assets': resolve(ROOT, '.github/assets'),
+    },
+  },
   plugins: [vue()],
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
@@ -60,16 +71,23 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
-    include: ['src/**/*.{test,spec}.{js,mjs}'],
+    include: [
+      'src/**/*.{test,spec}.{js,mjs}',
+      '@*/**/*.{test,spec}.{js,mjs}',
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      include: ['src/**/*.{js,mjs,vue}'],
+      include: [
+        'src/**/*.{js,mjs,vue}',
+        '@*/**/*.{js,mjs,vue}',
+      ],
       exclude: [
         'src/main.js',
         'src/App.vue',
         'src/router.js',
         'src/**/*.{test,spec}.{js,mjs}',
+        '@*/**/*.{test,spec}.{js,mjs}',
       ],
     },
   },

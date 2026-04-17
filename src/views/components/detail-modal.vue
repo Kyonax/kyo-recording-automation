@@ -101,10 +101,9 @@
 </template>
 
 <script setup>
+import BaseModal from '@views/components/base-modal.vue';
+import { parseEmphasis } from '@views/utils/parse-emphasis.js';
 import { computed } from 'vue';
-
-import BaseModal from './base-modal.vue';
-import { parseEmphasis } from '../utils/parse-emphasis.js';
 
 const MODAL_WIDTH = 'min(720px, calc(100vw - 4em))';
 
@@ -127,7 +126,7 @@ const description_segments = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@use "../../app/scss/abstracts/mixins" as *;
+@use "@app/scss/abstracts/mixins" as *;
 
 .detail-content {
   padding: 0 1.25em 1.25em;

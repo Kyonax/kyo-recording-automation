@@ -83,7 +83,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-@use "../../app/scss/abstracts/mixins" as *;
+@use "@app/scss/abstracts/mixins" as *;
 
 .modal-backdrop {
   position: fixed;

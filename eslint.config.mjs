@@ -52,11 +52,14 @@
  */
 
 import js from '@eslint/js';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import jsdoc from 'eslint-plugin-jsdoc';
 import security from 'eslint-plugin-security';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unicorn from 'eslint-plugin-unicorn';
+import vue from 'eslint-plugin-vue';
 import globals from 'globals';
 
 export default [
@@ -78,6 +81,10 @@ export default [
     files: ['**/*.{js,mjs}'],
 
     languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: './tsconfig.eslint.json',
+      },
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
@@ -87,6 +94,7 @@ export default [
     },
 
     plugins: {
+      '@typescript-eslint': tsPlugin,
       import: importPlugin,
       jsdoc,
       'simple-import-sort': simpleImportSort,
@@ -95,6 +103,63 @@ export default [
     },
 
     rules: {
+      // ── Naming conventions (CCS standards) ─────────────────
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'default',
+          format: ['snake_case'],
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
+        },
+        {
+          selector: 'function',
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'method',
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'variable',
+          modifiers: ['const'],
+          format: ['UPPER_CASE', 'snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'parameter',
+          format: ['snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'import',
+          format: ['camelCase', 'PascalCase', 'snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'objectLiteralProperty',
+          format: null,
+          filter: { regex: '[/\\-@: ]|^__.*__$', match: true },
+        },
+        {
+          selector: 'objectLiteralProperty',
+          format: ['PascalCase', 'camelCase', 'snake_case', 'UPPER_CASE'],
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
+        },
+        {
+          selector: 'property',
+          format: ['snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'class',
+          format: ['PascalCase'],
+        },
+      ],
+
       // ── Import ordering ────────────────────────────────────
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
@@ -102,10 +167,7 @@ export default [
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
 
-      // ── Naming conventions ─────────────────────────────────
-      // Enforced via code-review convention (ESLint core cannot
-      // distinguish variable/function/class naming natively).
-      // The unicorn/filename-case rule handles file names.
+      // ── Filename conventions ─────────────────────────────────
       'unicorn/filename-case': [
         'error',
         { case: 'kebabCase' },
@@ -233,6 +295,149 @@ export default [
       'no-magic-numbers': 'off',
       'no-console': 'off',
       'max-len': 'off',
+    },
+  },
+
+  // ── Vue SFC base (plugin, processor, essential rules) ────────
+  ...vue.configs['flat/essential'],
+  ...vue.configs['flat/strongly-recommended'],
+
+  // ── Vue SFC overrides (project-specific rules) ──────────────
+  {
+    files: ['**/*.vue'],
+
+    languageOptions: {
+      parserOptions: {
+        parser: tsParser,
+        project: './tsconfig.eslint.json',
+        extraFileExtensions: ['.vue'],
+      },
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        ...globals.browser,
+        __APP_VERSION__: 'readonly',
+      },
+    },
+
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+      import: importPlugin,
+      'simple-import-sort': simpleImportSort,
+      security,
+      unicorn,
+    },
+
+    rules: {
+      // ── Vue rule overrides ─────────────────────────────────
+      'vue/multi-word-component-names': 'off',
+      'vue/html-self-closing': 'off',
+      'vue/html-indent': ['warn', 2],
+      'vue/max-attributes-per-line': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
+      'vue/prop-name-casing': 'off',
+      'vue/valid-define-props': 'off',
+
+      // ── Naming conventions (CCS standards) ─────────────────
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'default',
+          format: ['snake_case'],
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
+        },
+        {
+          selector: 'function',
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'method',
+          format: ['camelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'variable',
+          modifiers: ['const'],
+          format: ['UPPER_CASE', 'snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'parameter',
+          format: ['snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'import',
+          format: ['camelCase', 'PascalCase', 'snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'objectLiteralProperty',
+          format: null,
+          filter: { regex: '[/\\-@: ]|^__.*__$', match: true },
+        },
+        {
+          selector: 'objectLiteralProperty',
+          format: ['PascalCase', 'camelCase', 'snake_case', 'UPPER_CASE'],
+          leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
+        },
+        {
+          selector: 'property',
+          format: ['snake_case'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'class',
+          format: ['PascalCase'],
+        },
+      ],
+
+      // ── Import ordering ────────────────────────────────────
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-duplicates': 'error',
+
+      // ── Code quality (same as JS ruleset) ──────────────────
+      'no-console': 'warn',
+      'eqeqeq': ['error', 'always'],
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'curly': ['error', 'all'],
+      'semi': ['error', 'always'],
+      'quotes': ['error', 'single', { avoidEscape: true }],
+      'prefer-template': 'error',
+      'prefer-arrow-callback': 'error',
+      'object-shorthand': ['error', 'always'],
+      'no-magic-numbers': [
+        'warn',
+        {
+          ignore: [-1, 0, 1, 2],
+          ignoreArrayIndexes: true,
+          enforceConst: true,
+        },
+      ],
+
+      // ── Security ───────────────────────────────────────────
+      'no-eval': 'error',
+      'no-implied-eval': 'error',
+      'no-new-func': 'error',
+      'security/detect-eval-with-expression': 'error',
+      'security/detect-object-injection': 'warn',
+      'security/detect-unsafe-regex': 'error',
+
+      // ── Unicorn ────────────────────────────────────────────
+      'unicorn/filename-case': [
+        'error',
+        {
+          case: 'kebabCase',
+          ignore: ['^App\\.vue$'],
+        },
+      ],
     },
   },
 ];

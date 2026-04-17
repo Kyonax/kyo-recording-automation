@@ -9,170 +9,169 @@
 
 <template>
   <div class="home-bg">
-  <div class="home">
-    <div class="home-meta-bar">
-      <div class="home-meta">
-        <div class="meta-item">
-          <span class="meta-label">SOURCES</span>
-          <span class="meta-value">{{ overlay_count }}</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">BRANDS</span>
-          <span class="meta-value">{{ brand_count }}</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">READY</span>
-          <span class="meta-value">{{ ready_count }}</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">CANVAS</span>
-          <span class="meta-value">1920 × 1080 @ 60</span>
+    <div class="home">
+      <div class="home-meta-bar">
+        <div class="home-meta">
+          <div class="meta-item">
+            <span class="meta-label">SOURCES</span>
+            <span class="meta-value">{{ overlay_count }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">BRANDS</span>
+            <span class="meta-value">{{ brand_count }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">READY</span>
+            <span class="meta-value">{{ ready_count }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">CANVAS</span>
+            <span class="meta-value">1920 × 1080 @ 60</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <header class="home-header">
-      <div class="header-grid">
-        <span class="header-tag">SYS.LOG</span>
-        <span class="header-tag">RECKIT {{ VERSION_TAG }}</span>
-      </div>
+      <header class="home-header">
+        <div class="header-grid">
+          <span class="header-tag">SYS.LOG</span>
+          <span class="header-tag">RECKIT {{ VERSION_TAG }}</span>
+        </div>
 
-      <div class="brand-block">
-        <pre class="ascii-logo" aria-label="RECKIT">{{ ascii_logo }}</pre>
-        <p class="brand-tagline">
-          Realtime · Edit-free · Capture ·
-          Kyonax · Integrated · Toolkit
-        </p>
-      </div>
-    </header>
+        <div class="brand-block">
+          <pre class="ascii-logo" aria-label="RECKIT">{{ ascii_logo }}</pre>
+          <p class="brand-tagline">
+            Realtime · Edit-free · Capture ·
+            Kyonax · Integrated · Toolkit
+          </p>
+        </div>
+      </header>
 
-    <section class="setup-block">
-      <div class="setup-header">
-        <span class="setup-title">QUICK SETUP</span>
-      </div>
-      <ol class="setup-flow">
-        <li>
-          <span class="step-num">01</span>
-          <span class="step-text">Copy URL</span>
-        </li>
-        <li>
-          <span class="step-num">02</span>
-          <span class="step-text">OBS → Sources → + → Browser</span>
-        </li>
-        <li>
-          <span class="step-num">03</span>
-          <span class="step-text">Paste URL</span>
-        </li>
-        <li>
-          <span class="step-num">04</span>
-          <span class="step-text">Match size / FPS</span>
-        </li>
-        <li>
-          <span class="step-num">05</span>
-          <span class="step-text">Clear Custom CSS</span>
-        </li>
-        <li>
-          <span class="step-num">06</span>
-          <span class="step-text">Layer above scene</span>
-        </li>
-      </ol>
-    </section>
+      <section class="setup-block">
+        <div class="setup-header">
+          <span class="setup-title">QUICK SETUP</span>
+        </div>
+        <ol class="setup-flow">
+          <li>
+            <span class="step-num">01</span>
+            <span class="step-text">Copy URL</span>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <span class="step-text">OBS → Sources → + → Browser</span>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <span class="step-text">Paste URL</span>
+          </li>
+          <li>
+            <span class="step-num">04</span>
+            <span class="step-text">Match size / FPS</span>
+          </li>
+          <li>
+            <span class="step-num">05</span>
+            <span class="step-text">Clear Custom CSS</span>
+          </li>
+          <li>
+            <span class="step-num">06</span>
+            <span class="step-text">Layer above scene</span>
+          </li>
+        </ol>
+      </section>
 
-    <section class="overlays-section">
-      <h2 class="section-title">WEB SOURCES</h2>
+      <section class="overlays-section">
+        <h2 class="section-title">WEB SOURCES</h2>
 
-      <nav class="brand-tabs" aria-label="Brand filter">
-        <button
-          v-for="brand in brands"
-          :key="brand.name"
-          type="button"
-          class="brand-tab"
-          :class="{ active: selected_brand === brand.name }"
-          @click="selected_brand = brand.name"
+        <nav class="brand-tabs" aria-label="Brand filter">
+          <button
+            v-for="brand in brands"
+            :key="brand.name"
+            type="button"
+            class="brand-tab"
+            :class="{ active: selected_brand === brand.name }"
+            @click="selected_brand = brand.name"
+          >
+            <span class="tab-label">{{ brand.name }}</span>
+            <span class="tab-count">{{ brand.count }}</span>
+          </button>
+        </nav>
+
+        <div class="filter-bar">
+          <label class="filter-input">
+            <span class="filter-prompt">&gt;</span>
+            <input
+              v-model="search_query"
+              type="text"
+              placeholder="filter by name, tags, size, requirements..."
+              spellcheck="false"
+            />
+            <button
+              v-if="search_query"
+              type="button"
+              class="filter-clear"
+              aria-label="Clear filter"
+              @click="search_query = ''"
+            >
+              ×
+            </button>
+          </label>
+
+          <div class="filter-status" role="group" aria-label="Status filter">
+            <button
+              v-for="option in status_options"
+              :key="option.value"
+              type="button"
+              class="status-chip"
+              :class="{ active: status_filter === option.value }"
+              @click="status_filter = option.value"
+            >
+              <span class="chip-dot" :class="option.value" />
+              {{ option.label }}
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-if="filtered_overlays.length"
+          class="overlays-grid"
         >
-          <span class="tab-label">{{ brand.name }}</span>
-          <span class="tab-count">{{ brand.count }}</span>
-        </button>
-      </nav>
-
-      <div class="filter-bar">
-        <label class="filter-input">
-          <span class="filter-prompt">&gt;</span>
-          <input
-            v-model="search_query"
-            type="text"
-            placeholder="filter by name, tags, size, requirements..."
-            spellcheck="false"
+          <overlay-card
+            v-for="overlay in filtered_overlays"
+            :key="overlay.id"
+            :overlay="overlay"
           />
-          <button
-            v-if="search_query"
-            type="button"
-            class="filter-clear"
-            aria-label="Clear filter"
-            @click="search_query = ''"
-          >
-            ×
-          </button>
-        </label>
-
-        <div class="filter-status" role="group" aria-label="Status filter">
-          <button
-            v-for="option in status_options"
-            :key="option.value"
-            type="button"
-            class="status-chip"
-            :class="{ active: status_filter === option.value }"
-            @click="status_filter = option.value"
-          >
-            <span class="chip-dot" :class="option.value" />
-            {{ option.label }}
-          </button>
         </div>
-      </div>
+        <p v-else class="empty-state">
+          No web sources match the current filter.
+        </p>
+      </section>
 
-      <div
-        v-if="filtered_overlays.length"
-        class="overlays-grid"
-      >
-        <overlay-card
-          v-for="overlay in filtered_overlays"
-          :key="overlay.id"
-          :overlay="overlay"
-        />
-      </div>
-      <p v-else class="empty-state">
-        No web sources match the current filter.
-      </p>
-    </section>
-
-    <footer class="home-footer">
-      <span>Cristian D. Moreno — @kyonax_on_tech</span>
-      <span>MPL-2.0 / Apache-2.0</span>
-    </footer>
-  </div>
+      <footer class="home-footer">
+        <span>Cristian D. Moreno — @kyonax_on_tech</span>
+        <span>MPL-2.0 / Apache-2.0</span>
+      </footer>
+    </div>
   </div>
 </template>
 
 <script setup>
+import logoText from '@assets/logo.txt?raw';
+import { SOURCES } from '@shared/brand-loader.js';
+import { VERSION_TAG } from '@shared/version.js';
+import OverlayCard from '@views/components/overlay-card.vue';
 import { computed, ref } from 'vue';
-
-import logoText from '../../.github/assets/logo.txt?raw';
-import OverlayCard from '../shared/components/overlay-card.vue';
-import { OVERLAYS } from '../shared/data/overlays.js';
-import { VERSION_TAG } from '../shared/version.js';
 
 const ascii_logo = logoText;
 
-const overlay_count = computed(() => OVERLAYS.length);
+const overlay_count = computed(() => SOURCES.length);
 
 const ready_count = computed(() => {
-  return OVERLAYS.filter((o) => o.status === 'ready').length;
+  return SOURCES.filter((o) => o.status === 'ready').length;
 });
 
 const brands = computed(() => {
   const counts = new Map();
 
-  OVERLAYS.forEach((overlay) => {
+  SOURCES.forEach((overlay) => {
     const current = counts.get(overlay.brand) || 0;
     counts.set(overlay.brand, current + 1);
   });
@@ -214,7 +213,7 @@ function matchesSearch(overlay, query) {
 }
 
 const filtered_overlays = computed(() => {
-  return OVERLAYS.filter((overlay) => {
+  return SOURCES.filter((overlay) => {
     if (overlay.brand !== selected_brand.value) {
       return false;
     }
@@ -232,7 +231,7 @@ const filtered_overlays = computed(() => {
 </script>
 
 <style scoped lang="scss">
-@use "../app/scss/abstracts/mixins" as *;
+@use "@app/scss/abstracts/mixins" as *;
 
 .home-bg {
   background: var(--clr-neutral-500);

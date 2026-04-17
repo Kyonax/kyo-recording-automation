@@ -37,10 +37,6 @@ dist-ssr/
 .vite/
 *.local
 
-# package-lock.json is COMMITTED — required by the CI workflow
-# (`npm ci`) and gives reproducible installs + supply-chain
-# defense. Do NOT re-add it to this ignore list.
-
 # ── Build / cache ────────────────────────────────────────────
 .cache/
 .parcel-cache/
@@ -68,17 +64,11 @@ coverage/
 *.lcov
 
 # ── Environment / secrets ────────────────────────────────────
-# Real values live only on the contributor's machine.
 .env
 .env.local
 .env.*.local
 .env.*
-# But the template IS meant to be committed.
 !.env.example
-
-# Hard ban on common secret-file extensions — never commit
-# these even accidentally. Add a specific pattern here if you
-# ever need to intentionally commit an encrypted variant.
 *.pem
 *.key
 *.crt
@@ -98,11 +88,20 @@ credentials/
 .aws/
 .gcloud/
 auth.json
-
-# RECKIT-specific: GPG-encrypted runtime config kept LOCAL by
-# choice. Decrypt with `gpg --decrypt .rc.gpg`.
 .rc
 .rc.gpg
+*.gpg
+*.jks
+*.keystore
+*.token
+*.secret
+.htpasswd
+.npmrc
+.yarnrc
+*.sqlite
+*.db
+*.sql
+.ssh/
 
 # ── Editors / IDEs ───────────────────────────────────────────
 .vscode/
@@ -142,13 +141,8 @@ $RECYCLE.BIN/
 tmp/
 temp/
 
-# ── Local-only RECKIT contributor files ──────────────────────
-# Setup notes / scratchpad docs that live on the contributor's
-# machine only.
+# ── Local-only contributor files ─────────────────────────────
 .github/BRANCHES.org
-
-# Clipboard buffer for the most recent generated commit / PR
-# text. Overwritten in place every time new text is produced.
-# Local only — never committed.
+CLAUDE.md
 COMMIT.org
 PR.org

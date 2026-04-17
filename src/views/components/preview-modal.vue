@@ -72,11 +72,10 @@
 </template>
 
 <script setup>
+import BaseModal from '@views/components/base-modal.vue';
 import {
   computed, nextTick, onMounted, onUnmounted, ref, watch,
 } from 'vue';
-
-import BaseModal from './base-modal.vue';
 
 const READY_DELAY_MS = 300;
 
@@ -200,7 +199,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-@use "../../app/scss/abstracts/mixins" as *;
+@use "@app/scss/abstracts/mixins" as *;
 
 .modal-brand {
   @include hud-label-base;

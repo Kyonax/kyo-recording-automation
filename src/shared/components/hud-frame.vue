@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import CornerBracket from './corner-bracket.vue';
+import CornerBracket from '@shared/components/corner-bracket.vue';
 
 const BRACKET_SIZE = 40;
 
@@ -77,7 +77,7 @@ defineProps({
 </script>
 
 <style scoped lang="scss">
-@use "../../app/scss/abstracts/mixins" as *;
+@use "@app/scss/abstracts/mixins" as *;
 
 .hud-frame {
   position: relative;

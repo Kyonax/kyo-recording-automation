@@ -1,3 +1,25 @@
+<!--
+  Copyright (c) 2026 Cristian D. Moreno — @Kyonax
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. See LICENSE or https://mozilla.org/MPL/2.0/
+-->
+
+<!--
+   __  __         __
+  / /_/ /  ___   / /__ __    __
+ / __/ _ \/ -_) / / _ `/ |/|/ /
+ \__/_//_/\__/ /_/\_,_/|__,__/
+
+ CLAUDE.md — Project-level instructions for Claude Code
+ 2026-04-17
+
+ Rules and prohibitions that override all other behavior
+ when working inside this repository.
+
+ Cristian D. Moreno (Kyonax)
+ kyonax.corp@gmail.com
+-->
+
 # CLAUDE.md — RECKIT Project Instructions
 
 ## ABSOLUTE PROHIBITION: Git Write Operations

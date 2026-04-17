@@ -190,12 +190,11 @@
 </template>
 
 <script setup>
+import CornerBracket from '@shared/components/corner-bracket.vue';
+import DetailModal from '@views/components/detail-modal.vue';
+import PreviewModal from '@views/components/preview-modal.vue';
+import { parseEmphasis } from '@views/utils/parse-emphasis.js';
 import { computed, ref } from 'vue';
-
-import CornerBracket from './corner-bracket.vue';
-import DetailModal from './detail-modal.vue';
-import PreviewModal from './preview-modal.vue';
-import { parseEmphasis } from '../utils/parse-emphasis.js';
 
 const COPIED_RESET_MS = 1500;
 const MAX_VISIBLE_USE_CASES = 3;
@@ -295,7 +294,7 @@ async function copyUrl() {
 </script>
 
 <style scoped lang="scss">
-@use "../../app/scss/abstracts/mixins" as *;
+@use "@app/scss/abstracts/mixins" as *;
 
 .overlay-card {
   position: relative;

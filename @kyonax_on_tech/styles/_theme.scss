@@ -1,0 +1,36 @@
+/*
+ * Copyright (c) 2026 Cristian D. Moreno — @Kyonax
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. See LICENSE or https://mozilla.org/MPL/2.0/
+ *
+ * Brand theme for @kyonax_on_tech.
+ * Gold + black cyberpunk palette. Overrides CSS custom properties
+ * when this brand's web sources are rendered.
+ *
+ * Colors here match the global defaults intentionally — they exist
+ * so this brand is fully containerized. A new brand can copy this
+ * file and change the values without touching the global theme.
+ */
+
+.brand-kyonax-on-tech {
+  --clr-primary-50: hsl(48, 95%, 78%);
+  --clr-primary-100: hsl(47, 95%, 56%);
+  --clr-primary-200: hsl(49, 100%, 39%);
+  --clr-primary-300: hsl(48, 100%, 29%);
+  --clr-primary-400: hsl(45, 100%, 20%);
+  --clr-primary-500: hsl(35, 100%, 13%);
+
+  --clr-secondary-50: hsl(224, 95%, 78%);
+  --clr-secondary-100: hsl(224, 95%, 56%);
+  --clr-secondary-200: hsl(224, 74%, 45%);
+
+  --clr-neutral-50: hsl(0, 0%, 95%);
+  --clr-neutral-100: hsl(0, 0%, 85%);
+  --clr-neutral-200: hsl(0, 0%, 65%);
+  --clr-neutral-300: hsl(0, 0%, 45%);
+  --clr-neutral-400: hsl(0, 0%, 25%);
+  --clr-neutral-500: hsl(0, 0%, 0%);
+
+  --clr-error-100: hsl(352, 69%, 48%);
+  --clr-success-100: hsl(91, 62%, 44%);
+}
