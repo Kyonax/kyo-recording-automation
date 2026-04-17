@@ -63,11 +63,17 @@
         <span class="use-case-label">WHEN TO USE</span>
         <ul class="use-case-tags">
           <li
-            v-for="(keyword, index) in overlay.use_cases"
+            v-for="(keyword, index) in visible_use_cases"
             :key="index"
             class="use-case-tag"
           >
             {{ keyword }}
+          </li>
+          <li
+            v-if="extra_use_cases_count > 0"
+            class="use-case-tag use-case-overflow"
+          >
+            +{{ extra_use_cases_count }}
           </li>
         </ul>
       </div>
@@ -111,10 +117,16 @@
       <span class="requires-label">REQUIRES</span>
       <ul class="requires-list">
         <li
-          v-for="(req, index) in overlay.requires"
+          v-for="(req, index) in visible_requires"
           :key="index"
         >
           {{ req }}
+        </li>
+        <li
+          v-if="extra_requires_count > 0"
+          class="requires-overflow"
+        >
+          +{{ extra_requires_count }} more
         </li>
       </ul>
     </div>
@@ -152,12 +164,27 @@
       </div>
     </div>
 
+    <button
+      type="button"
+      class="detail-button"
+      @click="openDetail"
+    >
+      <span class="detail-icon">&#9670;</span>
+      <span class="detail-label">DETAILS</span>
+    </button>
+
     <preview-modal
       :overlay="overlay"
       :is_open="is_modal_open"
       :pending_trigger="pending_trigger"
       @close="closeModal"
       @consume_trigger="pending_trigger = null"
+    />
+
+    <detail-modal
+      :overlay="overlay"
+      :is_open="is_detail_open"
+      @close="closeDetail"
     />
   </article>
 </template>
@@ -166,10 +193,13 @@
 import { computed, ref } from 'vue';
 
 import CornerBracket from './corner-bracket.vue';
+import DetailModal from './detail-modal.vue';
 import PreviewModal from './preview-modal.vue';
+import { parseEmphasis } from '../utils/parse-emphasis.js';
 
 const COPIED_RESET_MS = 1500;
-const EMPHASIS_PATTERN = /\*\*(.+?)\*\*/g;
+const MAX_VISIBLE_USE_CASES = 3;
+const MAX_VISIBLE_REQUIRES = 3;
 
 const props = defineProps({
   overlay: {
@@ -178,35 +208,9 @@ const props = defineProps({
   },
 });
 
-function parseEmphasis(text) {
-  if (!text) {
-    return [];
-  }
-
-  const segments = [];
-  let last_index = 0;
-
-  for (const match of text.matchAll(EMPHASIS_PATTERN)) {
-    if (match.index > last_index) {
-      segments.push({
-        text: text.slice(last_index, match.index),
-        bold: false,
-      });
-    }
-
-    segments.push({ text: match[1], bold: true });
-    last_index = match.index + match[0].length;
-  }
-
-  if (last_index < text.length) {
-    segments.push({ text: text.slice(last_index), bold: false });
-  }
-
-  return segments;
-}
-
 const is_copied = ref(false);
 const is_modal_open = ref(false);
+const is_detail_open = ref(false);
 const pending_trigger = ref(null);
 
 const is_planned = computed(() => {
@@ -223,6 +227,34 @@ const has_actions = computed(() => {
       && props.overlay.triggers.length > 0);
 });
 
+const visible_use_cases = computed(() => {
+  if (!props.overlay.use_cases) {
+    return [];
+  }
+  return props.overlay.use_cases.slice(0, MAX_VISIBLE_USE_CASES);
+});
+
+const extra_use_cases_count = computed(() => {
+  if (!props.overlay.use_cases) {
+    return 0;
+  }
+  return Math.max(
+    0,
+    props.overlay.use_cases.length - MAX_VISIBLE_USE_CASES,
+  );
+});
+
+const visible_requires = computed(() => {
+  return props.overlay.requires.slice(0, MAX_VISIBLE_REQUIRES);
+});
+
+const extra_requires_count = computed(() => {
+  return Math.max(
+    0,
+    props.overlay.requires.length - MAX_VISIBLE_REQUIRES,
+  );
+});
+
 function openModal(trigger_payload = null) {
   pending_trigger.value = trigger_payload;
   is_modal_open.value = true;
@@ -231,6 +263,14 @@ function openModal(trigger_payload = null) {
 function closeModal() {
   is_modal_open.value = false;
   pending_trigger.value = null;
+}
+
+function openDetail() {
+  is_detail_open.value = true;
+}
+
+function closeDetail() {
+  is_detail_open.value = false;
 }
 
 const full_url = computed(() => {
@@ -263,9 +303,8 @@ async function copyUrl() {
   background: rgba(255, 215, 0, 0.02);
   border: 1px solid var(--clr-border-100);
   display: grid;
-  grid-auto-rows: min-content;
+  grid-auto-rows: auto;
   gap: 1em;
-  overflow: hidden;
   min-width: 0;
   word-break: break-word;
   overflow-wrap: anywhere;
@@ -362,6 +401,10 @@ async function copyUrl() {
 .card-description p {
   opacity: 0.8;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card-description .emphasis {
@@ -405,6 +448,11 @@ async function copyUrl() {
   border: 1px solid var(--clr-border-100);
   text-transform: lowercase;
   white-space: nowrap;
+}
+
+.use-case-overflow {
+  opacity: 0.5;
+  border-style: dashed;
 }
 
 .card-spec-grid {
@@ -529,6 +577,21 @@ async function copyUrl() {
   color: var(--clr-primary-100);
 }
 
+.requires-overflow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-250);
+  color: var(--clr-neutral-200);
+  opacity: 0.5;
+  position: relative;
+}
+
+.requires-overflow::before {
+  content: "›";
+  position: absolute;
+  left: -1em;
+  color: var(--clr-primary-100);
+}
+
 .card-actions {
   display: flex;
   flex-direction: column;
@@ -577,6 +640,37 @@ async function copyUrl() {
 }
 
 .action-icon {
+  color: var(--clr-primary-100);
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.detail-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+  padding: 0.65em 1em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  color: var(--clr-neutral-50);
+  background: transparent;
+  border: 1px solid var(--clr-border-100);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.detail-button:hover {
+  color: var(--clr-primary-100);
+  border-color: var(--clr-primary-100);
+  background: rgba(255, 215, 0, 0.04);
+}
+
+.detail-icon {
   color: var(--clr-primary-100);
   font-size: 0.9em;
   line-height: 1;

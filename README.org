@@ -1,9 +1,41 @@
+# Copyright (c) 2026 Cristian D. Moreno — @Kyonax
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. See LICENSE or https://mozilla.org/MPL/2.0/
+
+#   __  __         __       _    __
+#  / /_/ /  ___   / /  ____(_)__/ /__ ____
+# / __/ _ \/ -_) / _ \/ __/ / _  / _ `/ -_)
+# \__/_//_/\__/ /_.__/_/ /_/\_,_/\_, /\__/
+#                               /___/
+#
+# README.org — Project landing page on GitHub
+# 2026-04-17
+#
+# First thing visitors and contributors see. Rendered by
+# GitHub as the repo homepage. Contains the ASCII logo,
+# badges, project description, and contributing info.
+#
+#   ASCII logo (centered table)
+#   Badges (shields.io)
+#   What is RECKIT?
+#   Contributing
+#
+# Guidelines:
+#   ASCII centering: <table align="center"> inside <div align="left">
+#   Badges: extension-less SVG URLs only, flat-square style
+#   Custom logos: hardcode fill color in SVG before base64
+#   Version: #+VERSION:, logo footer, badge must all match
+#   Minimal README style, no verbose docs here
+#
+# Cristian D. Moreno (Kyonax)
+# kyonax.corp@gmail.com
+
 #+AUTHOR: [[https://orcid.org/0009-0006-4459-5538][Cristian D. Moreno - Kyonax]]
 #+EMAIL: kyonax.corp@gmail.com
 #+DATE: Apr 13, 2026
 #+FILETAGS: :KYO:RECKIT:OBS:AUTOMATION:CONTENT:
 #+VERSION: v0.3
-#+LAST_UPDATE: Apr 13, 2026
+#+LAST_UPDATE: Apr 17, 2026
 
 #+BEGIN_HTML
 <div align="left">

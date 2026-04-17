@@ -2,39 +2,53 @@
  * Copyright (c) 2026 Cristian D. Moreno — @Kyonax
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. See LICENSE or https://mozilla.org/MPL/2.0/
+ */
+
+/**
+ *   __  __                          _          __
+ *  / /_/ /  ___   ___  _______ ____(_)__  ____/ /_
+ * / __/ _ \/ -_) / _ \/ __/ -_) __/ / _ \/ __/ __/
+ * \__/_//_/\__/ / .__/_/  \__/\__/_/_//_/\__/\__/
+ *              /_/
  *
- * ================================================================
- *  RECKIT -- ESLint Flat-Config
- * ================================================================
+ * eslint.config.mjs — CCS code standards for browser JS
+ * 2026-04-17
  *
- *  Repository : kyo-recording-automation (RECKIT)
- *  Author     : Cristian D. Moreno -- Kyonax
- *  License    : MPL-2.0
+ * ESLint flat-config enforcing Cyber Code Syndicate conventions
+ * for browser JS. No TypeScript, no Node globals. The naming
+ * table below is enforced via code review since ESLint core
+ * cannot distinguish variable/function/class naming natively.
  *
- *  Based on CCS code standards for **browser JS**
- *  (no TypeScript, no Node globals).
+ *   | Scope       | Style         | Example              |
+ *   |-------------|---------------|----------------------|
+ *   | functions   | camelCase     | startOverlay()       |
+ *   | variables   | snake_case    | overlay_timer        |
+ *   | constants   | UPPER_CASE    | MAX_RETRY            |
+ *   | classes     | PascalCase    | HudController        |
+ *   | filenames   | kebab-case    | scene-switcher.js    |
  *
- *  Enforced conventions
- *  --------------------
- *  | Scope       | Style         | Example              |
- *  |-------------|---------------|----------------------|
- *  | functions   | camelCase     | startOverlay()       |
- *  | variables   | snake_case    | overlay_timer        |
- *  | constants   | UPPER_CASE    | MAX_RETRY            |
- *  | classes     | PascalCase    | HudController        |
- *  | filenames   | kebab-case    | scene-switcher.js    |
+ *   Global ignores
+ *   Import ordering (simple-import-sort)
+ *   Code quality rules
+ *   Formatting rules
+ *   Security bans (eval, innerHTML, document.write)
+ *   Security plugin rules
+ *   Unicorn extras
+ *   JSDoc
+ *   Test file overrides (Vitest globals)
  *
- *  Plugins
- *  -------
- *  - @eslint/js           -- ESLint recommended baseline
- *  - eslint-plugin-import -- import analysis (via simple-import-sort)
- *  - eslint-plugin-jsdoc  -- JSDoc quality
- *  - eslint-plugin-simple-import-sort -- deterministic import order
- *  - eslint-plugin-unicorn -- opinionated best-practices
- *  - eslint-plugin-security -- static security analysis
+ * Guidelines:
+ *   2-space indent, single quotes, semicolons, trailing commas
+ *   prefer-const, no-var, eqeqeq always
+ *   prefer-template over string concatenation
+ *   No magic numbers (ignore -1, 0, 1, 2)
+ *   Composables clean up listeners in onUnmounted
  *
- *  Last sync with CCS standards : 2026-04-13
- * ================================================================
+ * Requirements:
+ * detect-object-injection on loop indexes are false positives
+ *
+ * Cristian D. Moreno (Kyonax)
+ * kyonax.corp@gmail.com
  */
 
 import js from '@eslint/js';

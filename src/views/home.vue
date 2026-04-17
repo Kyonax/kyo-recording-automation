@@ -501,11 +501,16 @@ const filtered_overlays = computed(() => {
 .overlays-grid {
   display: grid;
   gap: 2em;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(min(100%, 340px), 1fr)
-  );
-  align-items: start;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+
+  @include min-media-query(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include min-media-query(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .filter-bar {

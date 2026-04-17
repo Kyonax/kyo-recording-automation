@@ -3,13 +3,13 @@
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. See LICENSE or https://mozilla.org/MPL/2.0/
 
-  cam-person — Cyberpunk HUD overlay for webcam (camera to person).
+  cam-log — Cyberpunk HUD overlay for webcam (camera to person).
   Renders on top of a Video Capture source in OBS.
   Transparent background — webcam shows through.
 -->
 
 <template>
-  <div class="cam-person-overlay">
+  <div class="cam-log-overlay">
     <hud-frame
       :width="CANVAS_WIDTH"
       :height="CANVAS_HEIGHT"
@@ -132,7 +132,7 @@ const debug_text = computed(() => {
 <style scoped lang="scss">
 @use "../../app/scss/abstracts/mixins" as *;
 
-.cam-person-overlay {
+.cam-log-overlay {
   width: var(--canvas-width);
   height: var(--canvas-height);
   position: relative;

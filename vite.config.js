@@ -4,14 +4,38 @@
  * Copyright (c) 2026 Cristian D. Moreno — @Kyonax
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. See LICENSE or https://mozilla.org/MPL/2.0/
+ */
+
+/**
+ *   __  __         ___
+ *  / /_/ /  ___   / _/__  _______ ____
+ * / __/ _ \/ -_) / _/ _ \/ __/ _ `/ -_)
+ * \__/_//_/\__/ /_/ \___/_/  \_, /\__/
+ *                           /___/
  *
- * Vite config. package.json is the single source of truth for the
- * version; it's injected into the bundle as __APP_VERSION__ so UI
- * components can display it without hardcoding a string.
+ * vite.config.js — Build, dev server and test pipeline
+ * 2026-04-17
  *
- * Also hosts the Vitest config (reuses Vite's plugin + transform
- * pipeline — zero extra tooling cost). See the `test.include`
- * block below for the test-file pattern.
+ * Main build configuration for the RECKIT Vue 3 app. Injects the
+ * version from package.json and hosts the Vitest test config in
+ * the same file to reuse the plugin pipeline.
+ *
+ *   Plugins (Vue 3)
+ *   define: __APP_VERSION__
+ *   Server config (port 5173)
+ *   Vitest config (environment, globals, coverage)
+ *
+ * Guidelines:
+ *   Version comes from package.json only, never hardcode
+ *   New plugins go in the plugins array, not separate configs
+ *   Test patterns colocated next to source files
+ *
+ * Requirements:
+ * Shared by Vite and Vitest, no separate vitest.config.js
+ * Kill stale dev servers before adding plugins
+ *
+ * Cristian D. Moreno (Kyonax)
+ * kyonax.corp@gmail.com
  */
 
 import { createRequire } from 'node:module';

@@ -13,10 +13,10 @@ const routes = [
     component: () => import('./views/home.vue'),
   },
   {
-    path: '/@kyonax_on_tech/cam-person',
-    name: 'kyonax-cam-person',
+    path: '/@kyonax_on_tech/cam-log',
+    name: 'kyonax-cam-log',
     component: () => import(
-      './brands/kyonax-on-tech/cam-person.vue'
+      './brands/kyonax-on-tech/cam-log.vue'
     ),
   },
   {

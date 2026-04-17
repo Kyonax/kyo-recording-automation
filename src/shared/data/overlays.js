@@ -23,7 +23,7 @@ const TARGET_FPS = 60;
 
 export const OVERLAYS = [
   {
-    id: 'cam-person',
+    id: 'cam-log',
     brand: '@kyonax_on_tech',
     name: 'CAM-LOG',
     description:
@@ -41,7 +41,7 @@ export const OVERLAYS = [
       'talking head',
       'person to camera',
     ],
-    path: '/@kyonax_on_tech/cam-person',
+    path: '/@kyonax_on_tech/cam-log',
     width: CANVAS_WIDTH,
     height: CANVAS_HEIGHT,
     fps: TARGET_FPS,
