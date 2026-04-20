@@ -10,7 +10,7 @@
 
 <template>
   <div class="cam-log-overlay">
-    <hud-frame
+    <HudFrame
       :width="CANVAS_WIDTH"
       :height="CANVAS_HEIGHT"
       :labels="hud_labels"
@@ -36,12 +36,12 @@
 
       <!-- Bottom status bar -->
       <div class="status-bar">
-        <recording-timer
+        <HudTimer
           :is_recording="is_recording"
           :elapsed_time="elapsed_time"
         />
 
-        <audio-meter
+        <AudioMeter
           :obs="obs"
           source_name="Mic/Aux"
           @update:state="audio_state = $event"
@@ -58,25 +58,25 @@
 
       <!-- Diagnostic readout -->
       <div class="debug-info">
-        <live-readout
+        <LiveReadout
           :text="debug_text"
           :refresh_ms="DEBUG_REFRESH_MS"
         />
       </div>
-    </hud-frame>
+    </HudFrame>
   </div>
 </template>
 
 <script setup>
+import { useObsWebsocket } from '@composables/use-obs-websocket.js';
+import { useRecordingStatus } from '@composables/use-recording-status.js';
+import { useSceneName } from '@composables/use-scene-name.js';
+import HudFrame from '@hud/frame.vue';
+import HudTimer from '@hud/timer.vue';
 import { getBrand } from '@shared/brand-loader.js';
-import HudFrame from '@shared/components/hud-frame.vue';
-import RecordingTimer from '@shared/components/recording-timer.vue';
-import { useObsWebsocket } from '@shared/composables/use-obs-websocket.js';
-import { useRecordingStatus } from '@shared/composables/use-recording-status.js';
-import { useSceneName } from '@shared/composables/use-scene-name.js';
 import { VERSION_TAG } from '@shared/version.js';
-import AudioMeter from '@shared/widgets/audio-meter.vue';
-import LiveReadout from '@shared/widgets/live-readout.vue';
+import AudioMeter from '@widgets/audio-meter.vue';
+import LiveReadout from '@widgets/live-readout.vue';
 import { computed, ref } from 'vue';
 
 const brand = getBrand('@kyonax_on_tech');

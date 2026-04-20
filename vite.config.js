@@ -54,10 +54,22 @@ const DEV_SERVER_PORT = 5173;
 export default defineConfig({
   resolve: {
     alias: {
+      // Top-level scopes
       '@shared': resolve(ROOT, 'src/shared'),
       '@views': resolve(ROOT, 'src/views'),
       '@app': resolve(ROOT, 'src/app'),
       '@assets': resolve(ROOT, '.github/assets'),
+
+      // Views: kind folders
+      '@sections': resolve(ROOT, 'src/views/components/sections'),
+      '@elements': resolve(ROOT, 'src/views/components/elements'),
+      '@modals': resolve(ROOT, 'src/views/components/modals'),
+
+      // Shared: kind folders
+      '@ui': resolve(ROOT, 'src/shared/components/ui'),
+      '@hud': resolve(ROOT, 'src/shared/components/hud'),
+      '@widgets': resolve(ROOT, 'src/shared/widgets'),
+      '@composables': resolve(ROOT, 'src/shared/composables'),
     },
   },
   plugins: [vue()],

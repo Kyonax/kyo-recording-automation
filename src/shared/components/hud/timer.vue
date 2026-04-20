@@ -9,7 +9,7 @@
     class="recording-timer"
     :class="{ recording: is_recording }"
   >
-    <status-indicator :active="is_recording" />
+    <UiStatus :active="is_recording" />
     <span class="rec" :class="{ active: is_recording }">REC</span>
     <span class="mode">MODE:</span>
     <span class="time">{{ elapsed_time }}</span>
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import StatusIndicator from '@shared/components/status-indicator.vue';
+import UiStatus from '@ui/status.vue';
 
 defineProps({
   is_recording: {

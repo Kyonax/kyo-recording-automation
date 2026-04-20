@@ -9,7 +9,7 @@
 -->
 
 <template>
-  <base-modal
+  <BaseModal
     :is_open="is_open"
     :max_width="MODAL_WIDTH"
     @close="$emit('close')"
@@ -97,11 +97,11 @@
         </ul>
       </section>
     </div>
-  </base-modal>
+  </BaseModal>
 </template>
 
 <script setup>
-import BaseModal from '@views/components/base-modal.vue';
+import BaseModal from '@modals/base.vue';
 import { parseEmphasis } from '@views/utils/parse-emphasis.js';
 import { computed } from 'vue';
 

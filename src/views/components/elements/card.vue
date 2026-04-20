@@ -12,29 +12,25 @@
     class="overlay-card"
     :class="{ 'is-planned': overlay.status === 'planned' }"
   >
-    <corner-bracket
-      position="top-left"
+    <UiIcon
+      name="corner-bracket"
       :size="40"
-      :stroke_width="3"
-      class="card-corner"
+      class="card-corner top-left"
     />
-    <corner-bracket
-      position="top-right"
+    <UiIcon
+      name="corner-bracket"
       :size="40"
-      :stroke_width="3"
-      class="card-corner"
+      class="card-corner top-right"
     />
-    <corner-bracket
-      position="bottom-left"
+    <UiIcon
+      name="corner-bracket"
       :size="40"
-      :stroke_width="3"
-      class="card-corner"
+      class="card-corner bottom-left"
     />
-    <corner-bracket
-      position="bottom-right"
+    <UiIcon
+      name="corner-bracket"
       :size="40"
-      :stroke_width="3"
-      class="card-corner"
+      class="card-corner bottom-right"
     />
 
     <header class="card-header">
@@ -173,7 +169,7 @@
       <span class="detail-label">DETAILS</span>
     </button>
 
-    <preview-modal
+    <PreviewModal
       :overlay="overlay"
       :is_open="is_modal_open"
       :pending_trigger="pending_trigger"
@@ -181,7 +177,7 @@
       @consume_trigger="pending_trigger = null"
     />
 
-    <detail-modal
+    <DetailModal
       :overlay="overlay"
       :is_open="is_detail_open"
       @close="closeDetail"
@@ -190,9 +186,9 @@
 </template>
 
 <script setup>
-import CornerBracket from '@shared/components/corner-bracket.vue';
-import DetailModal from '@views/components/detail-modal.vue';
-import PreviewModal from '@views/components/preview-modal.vue';
+import DetailModal from '@modals/detail.vue';
+import PreviewModal from '@modals/preview.vue';
+import UiIcon from '@ui/icon.vue';
 import { parseEmphasis } from '@views/utils/parse-emphasis.js';
 import { computed, ref } from 'vue';
 
@@ -313,29 +309,37 @@ async function copyUrl() {
   opacity: 0.4;
 }
 
-.overlay-card :deep(.card-corner) {
+.card-corner {
+  position: absolute;
   color: var(--clr-primary-100);
   z-index: 1;
 }
 
-.overlay-card :deep(.card-corner.top-left) {
+.card-corner :deep(path) {
+  stroke-width: 3;
+}
+
+.card-corner.top-left {
   top: -1px;
   left: -1px;
 }
 
-.overlay-card :deep(.card-corner.top-right) {
+.card-corner.top-right {
   top: -1px;
   right: -1px;
+  transform: scaleX(-1);
 }
 
-.overlay-card :deep(.card-corner.bottom-left) {
+.card-corner.bottom-left {
   bottom: -1px;
   left: -1px;
+  transform: scaleY(-1);
 }
 
-.overlay-card :deep(.card-corner.bottom-right) {
+.card-corner.bottom-right {
   bottom: -1px;
   right: -1px;
+  transform: scale(-1);
 }
 
 .card-header {

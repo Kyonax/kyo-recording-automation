@@ -10,7 +10,7 @@
 -->
 
 <template>
-  <base-modal
+  <BaseModal
     :is_open="is_open"
     @close="close"
   >
@@ -68,11 +68,11 @@
         </div>
       </template>
     </template>
-  </base-modal>
+  </BaseModal>
 </template>
 
 <script setup>
-import BaseModal from '@views/components/base-modal.vue';
+import BaseModal from '@modals/base.vue';
 import {
   computed, nextTick, onMounted, onUnmounted, ref, watch,
 } from 'vue';
