@@ -94,7 +94,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close', 'consume_trigger']);
+const emit = defineEmits(['close', 'consume-trigger']);
 
 const stage_el = ref(null);
 const iframe_ref = ref(null);
@@ -122,11 +122,6 @@ const iframe_size_style = computed(() => {
   };
 });
 
-/**
- * Measure the stage width and write the scale factor as a
- * CSS custom property. Bypasses Vue reactivity to avoid any
- * re-render feedback loop.
- */
 function applyScale() {
   const element = stage_el.value;
 
@@ -134,7 +129,7 @@ function applyScale() {
     return;
   }
 
-  const width = element.clientWidth;
+  const width = element.getBoundingClientRect().width;
   const scale = width / props.overlay.width;
 
   element.style.setProperty('--iframe-scale', scale);
@@ -175,7 +170,7 @@ function onIframeLoad() {
   if (props.pending_trigger) {
     setTimeout(() => {
       fire({ payload: props.pending_trigger });
-      emit('consume_trigger');
+      emit('consume-trigger');
     }, READY_DELAY_MS);
   }
 }
@@ -189,12 +184,25 @@ watch(() => props.is_open, async (open) => {
   requestAnimationFrame(applyScale);
 });
 
+const RESIZE_DEBOUNCE_MS = 100;
+let resize_timer = null;
+
+function handleResize() {
+  if (resize_timer) {
+    clearTimeout(resize_timer);
+  }
+  resize_timer = setTimeout(applyScale, RESIZE_DEBOUNCE_MS);
+}
+
 onMounted(() => {
-  window.addEventListener('resize', applyScale);
+  window.addEventListener('resize', handleResize);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', applyScale);
+  window.removeEventListener('resize', handleResize);
+  if (resize_timer) {
+    clearTimeout(resize_timer);
+  }
 });
 </script>
 
@@ -223,7 +231,7 @@ onUnmounted(() => {
   position: static;
   font-size: var(--fs-175);
   letter-spacing: 0.2em;
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
 }
 
 .modal-stage {
@@ -260,7 +268,7 @@ onUnmounted(() => {
   position: static;
   font-size: var(--fs-175);
   letter-spacing: 0.2em;
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
 }
 
 .actions-row {

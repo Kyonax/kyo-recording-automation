@@ -16,10 +16,6 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-// Brand theme is applied via a class selector — the actual CSS
-// custom property overrides live in `@<brand>/styles/_theme.scss`,
-// auto-loaded by src/main.js. This component only announces the
-// brand context; the CSS cascade does the rest.
 const brand_class = computed(() => {
   const handle = route.meta?.brand;
 

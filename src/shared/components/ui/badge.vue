@@ -48,7 +48,7 @@ const variant_class = computed(() => `ui-badge--${props.variant}`);
 }
 
 .ui-badge--dim {
-  border-color: var(--clr-neutral-200);
-  color: var(--clr-neutral-200);
+  border-color: var(--clr-neutral-100);
+  color: var(--clr-neutral-100);
 }
 </style>

@@ -19,13 +19,6 @@
 
 const EMPHASIS_PATTERN = /\*\*(.+?)\*\*/g;
 
-/**
- * Parse `**bold**` markers in text into an array of
- * `{ text, bold }` segments for Vue template rendering.
- *
- * @param {string} text
- * @returns {Array<{ text: string, bold: boolean }>}
- */
 export function parseEmphasis(text) {
   if (!text) {
     return [];

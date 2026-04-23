@@ -5,7 +5,6 @@
  */
 
 @use "sass:map";
-@use "sass:math";
 @use "variables" as *;
 
 @mixin font-face($name, $path, $weight: normal, $style: normal) {
@@ -25,50 +24,16 @@
 	}
 }
 
-@mixin max-media-query($key) {
-	$size: map.get($breakpoints, $key);
-
-	@media only screen and (max-width: $size) {
-		@content;
-	}
-}
-
-@mixin hud-label-base {
-	position: absolute;
+@mixin hud-text-base {
 	font-family: var(--font-mono);
 	font-size: var(--fs-475);
 	text-transform: uppercase;
 	letter-spacing: 2px;
-	color: var(--clr-neutral-50);
+	color: var(--clr-neutral-100);
 }
 
-@mixin cyberpunk-glow(
-	$glow-color: hsl(47, 95%, 56%),
-	$blur: 15px,
-	$spread: 5px,
-	$animated: true,
-	$speed: 1.5s,
-	$pulse-variation: 0.2
-) {
-	box-shadow: 0 0 $spread $blur $glow-color;
-
-	@if $animated {
-		$index: math.floor(calc(math.random() * 1000000));
-
-		animation: cyberpunk-pulse-#{$index} $speed ease-in-out infinite alternate;
-
-		@keyframes cyberpunk-pulse-#{$index} {
-			0% {
-				box-shadow: 0 0 calc(#{$spread} / 2) calc(#{$blur} / 2) $glow-color;
-			}
-
-			50% {
-				box-shadow: 0 0 calc(#{$spread} * (1.5 + $pulse-variation)) calc(#{$blur} * (1.5 + $pulse-variation)) $glow-color;
-			}
-
-			100% {
-				box-shadow: 0 0 calc(#{$spread} / 2) calc(#{$blur} / 2) $glow-color;
-			}
-		}
-	}
+@mixin hud-label-base {
+	@include hud-text-base;
+	position: absolute;
 }
+

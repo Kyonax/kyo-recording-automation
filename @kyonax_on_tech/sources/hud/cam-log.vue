@@ -10,31 +10,45 @@
 
 <template>
   <div class="cam-log-overlay">
-    <HudFrame
-      :width="CANVAS_WIDTH"
-      :height="CANVAS_HEIGHT"
-      :labels="hud_labels"
-    >
-      <!-- Top sub-labels -->
-      <span class="hud-label rec-frame">REC FRAME</span>
-      <span class="hud-label cam-online">CAM ONLINE</span>
-
-      <!-- Bottom-left: identity block (from brand.js) -->
-      <div class="identity-block">
-        <span class="identity-name">{{ brand.identity.author }}</span>
-        <span class="identity-handle">{{ brand.identity.display_handle }}</span>
+    <HudFrame :width="CANVAS_WIDTH" :height="CANVAS_HEIGHT">
+      <div class="hud-group group--top-left">
+        <span class="hud-text">{{ brand.host }}</span>
+        <span class="hud-text hud-text--primary session-date">
+          {{ session_date }}
+        </span>
       </div>
 
-      <!-- Bottom-right: toolkit identity -->
-      <span class="hud-label toolkit-id">RECKIT {{ VERSION_TAG }}</span>
+      <div class="hud-group group--top-right">
+        <span class="hud-text">
+          <span class="bracket">[</span>SESSION<span class="bracket">]</span>
+          {{ session_id }}
+        </span>
+        <span class="hud-text hud-text--primary cam-online">CAM ONLINE</span>
+      </div>
 
-      <!-- Center crosshair -->
+      <div class="hud-group group--bottom-left group--identity">
+        <span class="hud-text">{{ brand.identity.author }}</span>
+        <span class="hud-text hud-text--primary">
+          {{ brand.identity.display_handle }}
+        </span>
+      </div>
+
+      <span class="hud-text toolkit-id">RECKIT {{ VERSION_TAG }}</span>
+
       <div class="crosshair">
         <div class="crosshair-h" />
         <div class="crosshair-v" />
       </div>
 
-      <!-- Bottom status bar -->
+      <span
+        v-if="!connected"
+        class="hud-text offline"
+      >
+        OFFLINE
+      </span>
+    </HudFrame>
+
+    <div class="dynamic-layer">
       <div class="status-bar">
         <HudTimer
           :is_recording="is_recording"
@@ -42,28 +56,17 @@
         />
 
         <AudioMeter
-          :obs="obs"
-          source_name="Mic/Aux"
           @update:state="audio_state = $event"
         />
       </div>
 
-      <!-- Connection status -->
-      <span
-        v-if="!connected"
-        class="hud-label offline"
-      >
-        OFFLINE
-      </span>
-
-      <!-- Diagnostic readout -->
       <div class="debug-info">
         <LiveReadout
           :text="debug_text"
           :refresh_ms="DEBUG_REFRESH_MS"
         />
       </div>
-    </HudFrame>
+    </div>
   </div>
 </template>
 
@@ -77,7 +80,11 @@ import { getBrand } from '@shared/brand-loader.js';
 import { VERSION_TAG } from '@shared/version.js';
 import AudioMeter from '@widgets/hud/audio-meter.vue';
 import LiveReadout from '@widgets/ui/live-readout.vue';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
 import { computed, ref } from 'vue';
+
+dayjs.extend(utc);
 
 const brand = getBrand('@kyonax_on_tech');
 
@@ -86,19 +93,13 @@ const CANVAS_HEIGHT = 1080;
 const TAKE_PAD_LENGTH = 2;
 const DEBUG_REFRESH_MS = 200;
 
-const { obs, connected } = useObsWebsocket();
+const { connected } = useObsWebsocket();
 const {
   is_recording,
   elapsed_time,
   take_count,
-} = useRecordingStatus({
-  obs,
-  connected,
-});
-const { scene_name } = useSceneName({
-  obs,
-  connected,
-});
+} = useRecordingStatus();
+const { scene_name } = useSceneName();
 
 const audio_state = ref({
   active: false,
@@ -106,16 +107,15 @@ const audio_state = ref({
   peak: 0,
 });
 
-const hud_labels = computed(() => {
-  const name = scene_name.value || '---';
-  const take = String(take_count.value)
-    .padStart(TAKE_PAD_LENGTH, '0');
-  return {
-    top_left: 'SYS.LOG',
-    top_right: `SES::${name}::T${take}`,
-    bottom_left: '',
-    bottom_right: '',
-  };
+const session_date = dayjs()
+  .utc()
+  .format(`[${brand.region} ∇ ]DD.MM.YYYY[ // ]ddd`)
+  .toUpperCase();
+
+const session_id = computed(() => {
+  const name = (scene_name.value || '---').toUpperCase();
+  const take = String(take_count.value).padStart(TAKE_PAD_LENGTH, '0');
+  return `${name}::T${take}`;
 });
 
 const debug_text = computed(() => {
@@ -123,7 +123,7 @@ const debug_text = computed(() => {
   const audio = audio_state.value.active
     ? audio_state.value.source
     : 'NONE';
-  return `WS:${ws} | AUDIO:${audio} | L0:${audio_state.value.peak}`;
+  return `WS:${ws} | AUDIO:${audio} | L0:${audio_state.value.peak.toFixed(3)}`;
 });
 </script>
 
@@ -137,64 +137,92 @@ const debug_text = computed(() => {
   background: transparent;
 }
 
-.hud-label {
-  @include hud-label-base;
-  opacity: 0.5;
-}
-
-.rec-frame {
-  top: 4.5em;
-  left: 4em;
-  color: var(--clr-primary-100);
-  opacity: 0.8;
-}
-
-.cam-online {
-  top: 4.5em;
-  right: 4em;
-  color: var(--clr-primary-100);
-  opacity: 0.8;
-}
-
-.identity-block {
+.dynamic-layer {
   position: absolute;
-  bottom: 3em;
-  left: 4em;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hud-group {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 0.25em;
+  gap: var(--hud-group-gap);
+  contain: layout paint;
 }
 
-.identity-name {
-  @include hud-label-base;
-  position: static;
-  font-size: var(--fs-425);
-  opacity: 0.4;
+.group--top-left {
+  top: 3em;
+  left: 4em;
+  align-items: flex-start;
 }
 
-.identity-handle {
-  @include hud-label-base;
-  position: static;
-  letter-spacing: 1px;
+.group--top-right {
+  top: 3em;
+  right: 4em;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.group--bottom-left {
+  bottom: 3em;
+  left: 4em;
+  align-items: flex-start;
+}
+
+.group--identity {
+  gap: calc(var(--hud-group-gap) / 2);
+}
+
+.hud-text {
+  @include hud-text-base;
+  opacity: 0.7;
+}
+
+.hud-text--primary {
   color: var(--clr-primary-100);
-  opacity: 0.8;
+  text-shadow: var(--hud-glow);
+  opacity: 1;
+}
+
+.session-date,
+.cam-online {
+  font-size: var(--fs-425);
+}
+
+.bracket {
+  display: inline-block;
+  transform: translateY(-0.12em);
 }
 
 .toolkit-id {
-  bottom: 4.5em;
+  position: absolute;
+  bottom: 3em;
   right: 4em;
-  font-size: var(--fs-300);
+  font-size: var(--fs-350);
   letter-spacing: 3px;
-  opacity: 0.4;
+  opacity: 0.7;
 }
 
 .offline {
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: var(--fs-500);
-  color: var(--clr-neutral-200);
   letter-spacing: 4px;
+  opacity: 1;
+}
+
+.status-bar {
+  position: absolute;
+  bottom: var(--hud-bar-offset);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: var(--hud-bar-gap);
+  contain: layout paint;
 }
 
 .debug-info {
@@ -206,6 +234,8 @@ const debug_text = computed(() => {
   letter-spacing: 2px;
   text-transform: uppercase;
   opacity: 0.6;
+  text-shadow: var(--hud-halo-text), var(--hud-glow);
+  contain: layout paint;
 }
 
 .crosshair {
@@ -219,7 +249,8 @@ const debug_text = computed(() => {
 .crosshair-h,
 .crosshair-v {
   position: absolute;
-  background: var(--clr-border-100);
+  background: var(--clr-neutral-100);
+  opacity: 0.4;
 }
 
 .crosshair-h {
@@ -234,15 +265,5 @@ const debug_text = computed(() => {
   height: var(--arm-length);
   top: calc(var(--arm-length) / -2);
   left: 0;
-}
-
-.status-bar {
-  position: absolute;
-  bottom: var(--hud-bar-offset);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: flex-end;
-  gap: var(--hud-bar-gap);
 }
 </style>

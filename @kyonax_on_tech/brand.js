@@ -16,6 +16,9 @@ export default {
   description:
     'Cyberpunk-themed stream overlays for tech content creation.',
 
+  host: 'KYO-LABS',
+  region: 'COL',
+
   identity: {
     author: 'Cristian D. Moreno',
     display_handle: '@kyonax_on_tech',

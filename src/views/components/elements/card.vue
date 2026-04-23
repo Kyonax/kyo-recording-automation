@@ -167,7 +167,7 @@
       :is_open="is_modal_open"
       :pending_trigger="pending_trigger"
       @close="closeModal"
-      @consume_trigger="pending_trigger = null"
+      @consume-trigger="pending_trigger = null"
     />
 
     <DetailModal
@@ -521,7 +521,7 @@ async function copyUrl() {
 .requires-overflow {
   font-family: var(--font-mono);
   font-size: var(--fs-250);
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
   opacity: 0.5;
   position: relative;
 }
