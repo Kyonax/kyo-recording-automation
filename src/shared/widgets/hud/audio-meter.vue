@@ -3,54 +3,48 @@
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. See LICENSE or https://mozilla.org/MPL/2.0/
 
-  audio-meter — self-contained audio visualizer for OBS overlays.
-  Subscribes to OBS InputVolumeMeters via useAudioAnalyzer and
-  renders bars sized to the live peak. Drop into any brand
-  overlay that has an `obs` instance available.
+  audio-meter — self-contained audio visualizer. Reads OBS input
+  levels via `useAudioAnalyzer` (WebSocket `InputVolumeMeters`,
+  event-driven at ~50 Hz). Writes bar heights directly to the DOM
+  via template refs — no Vue reactivity in the hot path, no rAF
+  loop, zero allocation per update.
 
   Colors follow the current brand theme via --clr-primary-100.
 
   Props:
-    obs          — OBSWebSocket instance (required).
-    source_name  — OBS input name to watch. Empty = first input
-                   with non-zero levels.
     bar_count    — number of visual bars. Default 16.
 
   Emits:
-    update:state — { active, source, peak } on every analyzer
-                   frame. Use with a live-readout for diagnostics.
+    update:state — { active, source, peak }, throttled to ~10 Hz.
 -->
 
 <template>
   <div class="audio-meter">
     <div
-      v-for="(level, index) in levels"
-      :key="index"
+      v-for="i in bar_count"
+      :key="i"
+      ref="bar_els"
       class="bar"
-      :style="{ height: `${scaleLevel(level)}px` }"
     />
   </div>
 </template>
 
 <script setup>
-import { useAudioAnalyzer }
-  from '@shared/composables/use-audio-analyzer.js';
-import { watch } from 'vue';
+import { useAudioAnalyzer } from '@composables/use-audio-analyzer.js';
+import { ref, watch } from 'vue';
 
-const MAX_BAR_HEIGHT = 36;
-const MIN_BAR_HEIGHT = 2;
-const MAX_LEVEL = 255;
 const DEFAULT_BAR_COUNT = 16;
+const EMIT_INTERVAL_MS = 100;
+const MIN_VISIBLE_SCALE = 0.05;
+const SCALE_QUANTIZATION_STEPS = 100;
+const SCALE_WRITE_THRESHOLD = 0.01;
+
+const SCALE_STRINGS = Array.from(
+  { length: SCALE_QUANTIZATION_STEPS + 1 },
+  (_, i) => `scaleY(${(i / SCALE_QUANTIZATION_STEPS).toFixed(2)})`,
+);
 
 const props = defineProps({
-  obs: {
-    type: Object,
-    required: true,
-  },
-  source_name: {
-    type: String,
-    default: '',
-  },
   bar_count: {
     type: Number,
     default: DEFAULT_BAR_COUNT,
@@ -59,33 +53,58 @@ const props = defineProps({
 
 const emit = defineEmits(['update:state']);
 
-const { levels, active, source_name } = useAudioAnalyzer({
-  obs: props.obs,
+const { levels, tick, active, source_name } = useAudioAnalyzer({
   options: {
-    source_name: props.source_name,
     bar_count: props.bar_count,
   },
 });
 
-watch(
-  [active, source_name, levels],
-  ([next_active, next_source, next_levels]) => {
-    emit('update:state', {
-      active: next_active,
-      source: next_source,
-      peak: next_levels[0] || 0,
-    });
-  },
-  { immediate: true },
-);
+const bar_els = ref([]);
+const last_scale = new Float32Array(props.bar_count);
+last_scale.fill(-1);
+let last_emit = 0;
 
-function scaleLevel(value) {
-  const ratio = value / MAX_LEVEL;
-  return Math.max(
-    MIN_BAR_HEIGHT,
-    Math.round(ratio * MAX_BAR_HEIGHT),
-  );
-}
+watch(tick, () => {
+  const els = bar_els.value;
+  const len = els.length;
+  let peak = 0;
+
+  for (let i = 0; i < len; i++) {
+    const el = els[i];
+    if (!el) {
+      continue;
+    }
+
+    const value = levels[i];
+    if (value > peak) {
+      peak = value;
+    }
+
+    const scale = value < MIN_VISIBLE_SCALE ? MIN_VISIBLE_SCALE : value;
+    if (Math.abs(scale - last_scale[i]) < SCALE_WRITE_THRESHOLD) {
+      continue;
+    }
+    last_scale[i] = scale;
+
+    let idx = Math.round(scale * SCALE_QUANTIZATION_STEPS);
+    if (idx < 0) {
+      idx = 0;
+    } else if (idx > SCALE_QUANTIZATION_STEPS) {
+      idx = SCALE_QUANTIZATION_STEPS;
+    }
+    el.style.transform = SCALE_STRINGS[idx];
+  }
+
+  const now = performance.now();
+  if (now - last_emit >= EMIT_INTERVAL_MS) {
+    last_emit = now;
+    emit('update:state', {
+      active: active.value,
+      source: source_name.value,
+      peak,
+    });
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -94,12 +113,17 @@ function scaleLevel(value) {
   align-items: flex-end;
   gap: 2px;
   height: 40px;
+  contain: layout paint;
 }
 
 .bar {
   width: 4px;
-  min-height: 2px;
+  height: 40px;
   background: var(--clr-primary-100);
-  transition: height 0.05s linear;
+  box-shadow:
+    0 0 1px var(--clr-primary-100-80),
+    0 0 1px var(--clr-primary-100-40);
+  transform: scaleY(0.05);
+  transform-origin: bottom;
 }
 </style>

@@ -54,17 +54,20 @@ const size_class = computed(() => `ui-data-point--${props.size}`);
   display: flex;
   flex-direction: column;
   min-width: 0;
+  contain: layout paint;
 }
 
 .ui-data-point__label {
   @include hud-label-base;
   position: static;
   opacity: 0.5;
+  text-shadow: var(--hud-halo-text);
 }
 
 .ui-data-point__value {
   font-family: var(--font-mono);
   color: var(--clr-primary-100);
+  text-shadow: var(--hud-halo-text), var(--hud-glow);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   overflow: hidden;

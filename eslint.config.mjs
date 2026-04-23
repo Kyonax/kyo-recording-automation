@@ -63,7 +63,6 @@ import vue from 'eslint-plugin-vue';
 import globals from 'globals';
 
 export default [
-  // ── Global ignores ───────────────────────────────────────────
   {
     ignores: [
       'dist/**',
@@ -73,10 +72,8 @@ export default [
     ],
   },
 
-  // ── Base: ESLint recommended ─────────────────────────────────
   js.configs.recommended,
 
-  // ── Main ruleset (browser JS) ────────────────────────────────
   {
     files: ['**/*.{js,mjs}'],
 
@@ -103,7 +100,6 @@ export default [
     },
 
     rules: {
-      // ── Naming conventions (CCS standards) ─────────────────
       '@typescript-eslint/naming-convention': [
         'error',
         {
@@ -160,20 +156,17 @@ export default [
         },
       ],
 
-      // ── Import ordering ────────────────────────────────────
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'import/first': 'error',
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
 
-      // ── Filename conventions ─────────────────────────────────
       'unicorn/filename-case': [
         'error',
         { case: 'kebabCase' },
       ],
 
-      // ── Code quality ───────────────────────────────────────
       'no-console': 'warn',
       'eqeqeq': ['error', 'always'],
       'no-var': 'error',
@@ -207,20 +200,17 @@ export default [
       'prefer-arrow-callback': 'error',
       'object-shorthand': ['error', 'always'],
 
-      // ── Formatting ─────────────────────────────────────────
       'comma-dangle': ['error', 'always-multiline'],
       'keyword-spacing': ['error', { before: true, after: true }],
       'space-in-parens': ['error', 'never'],
       'object-curly-spacing': ['error', 'always'],
       'eol-last': ['error', 'always'],
 
-      // ── Security: explicit dangerous-pattern bans ──────────
       'no-eval': 'error',
       'no-implied-eval': 'error',
       'no-new-func': 'error',
       'no-script-url': 'error',
 
-      // ── Security plugin rules ──────────────────────────────
       'security/detect-eval-with-expression': 'error',
       'security/detect-non-literal-regexp': 'warn',
       'security/detect-object-injection': 'warn',
@@ -230,7 +220,6 @@ export default [
       'security/detect-no-csrf-before-method-override': 'error',
       'security/detect-possible-timing-attacks': 'warn',
 
-      // ── innerHTML ban (prefer textContent) ─────────────────
       'no-restricted-properties': [
         'error',
         {
@@ -250,7 +239,6 @@ export default [
         },
       ],
 
-      // ── Unicorn extras ─────────────────────────────────────
       'unicorn/no-array-for-each': 'warn',
       'unicorn/prefer-query-selector': 'error',
       'unicorn/prefer-dom-node-append': 'error',
@@ -260,13 +248,11 @@ export default [
       'unicorn/prefer-modern-dom-apis': 'error',
       'unicorn/prefer-number-properties': 'error',
 
-      // ── JSDoc ──────────────────────────────────────────────
       'jsdoc/require-jsdoc': 'off',
       'jsdoc/check-alignment': 'warn',
     },
   },
 
-  // ── Test file overrides ──────────────────────────────────────
   {
     files: [
       '**/*.test.{js,mjs}',
@@ -278,8 +264,6 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
-        // Vitest globals (enabled via `test.globals: true` in
-        // vite.config.js — no import needed inside tests).
         describe: 'readonly',
         it: 'readonly',
         test: 'readonly',
@@ -298,11 +282,9 @@ export default [
     },
   },
 
-  // ── Vue SFC base (plugin, processor, essential rules) ────────
   ...vue.configs['flat/essential'],
   ...vue.configs['flat/strongly-recommended'],
 
-  // ── Vue SFC overrides (project-specific rules) ──────────────
   {
     files: ['**/*.vue'],
 
@@ -329,7 +311,6 @@ export default [
     },
 
     rules: {
-      // ── Vue rule overrides ─────────────────────────────────
       'vue/multi-word-component-names': 'off',
       'vue/html-self-closing': 'off',
       'vue/html-indent': ['warn', 2],
@@ -338,7 +319,6 @@ export default [
       'vue/prop-name-casing': 'off',
       'vue/valid-define-props': 'off',
 
-      // ── Naming conventions (CCS standards) ─────────────────
       '@typescript-eslint/naming-convention': [
         'error',
         {
@@ -395,14 +375,12 @@ export default [
         },
       ],
 
-      // ── Import ordering ────────────────────────────────────
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'import/first': 'error',
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
 
-      // ── Code quality (same as JS ruleset) ──────────────────
       'no-console': 'warn',
       'eqeqeq': ['error', 'always'],
       'no-var': 'error',
@@ -422,7 +400,6 @@ export default [
         },
       ],
 
-      // ── Security ───────────────────────────────────────────
       'no-eval': 'error',
       'no-implied-eval': 'error',
       'no-new-func': 'error',
@@ -430,7 +407,6 @@ export default [
       'security/detect-object-injection': 'warn',
       'security/detect-unsafe-regex': 'error',
 
-      // ── Unicorn ────────────────────────────────────────────
       'unicorn/filename-case': [
         'error',
         {

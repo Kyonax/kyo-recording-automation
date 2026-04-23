@@ -19,7 +19,6 @@
 // into dashes), and tune any subset of variables it wants to override.
 
 .brand-kyonax-on-tech {
-  // ── Primary (gold) ──────────────────────────────────────────
   --clr-primary-50: hsl(48, 95%, 78%);
   --clr-primary-100: hsl(47, 95%, 56%);
   --clr-primary-200: hsl(49, 100%, 39%);
@@ -27,12 +26,10 @@
   --clr-primary-400: hsl(45, 100%, 20%);
   --clr-primary-500: hsl(35, 100%, 13%);
 
-  // ── Secondary (blue accent) ─────────────────────────────────
   --clr-secondary-50: hsl(224, 95%, 78%);
   --clr-secondary-100: hsl(224, 95%, 56%);
   --clr-secondary-200: hsl(224, 74%, 45%);
 
-  // ── Neutrals (black → white) ────────────────────────────────
   --clr-neutral-50: hsl(0, 0%, 95%);
   --clr-neutral-100: hsl(0, 0%, 85%);
   --clr-neutral-200: hsl(0, 0%, 65%);
@@ -40,7 +37,6 @@
   --clr-neutral-400: hsl(0, 0%, 25%);
   --clr-neutral-500: hsl(0, 0%, 0%);
 
-  // ── Status colors ────────────────────────────────────────────
   --clr-error-100: hsl(352, 69%, 48%);
   --clr-success-100: hsl(91, 62%, 44%);
 }

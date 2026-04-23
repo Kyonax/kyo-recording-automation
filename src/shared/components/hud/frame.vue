@@ -33,11 +33,6 @@
       class="bracket bottom-right"
     />
 
-    <div class="border-top" />
-    <div class="border-bottom" />
-    <div class="border-left" />
-    <div class="border-right" />
-
     <span
       v-if="labels.top_left"
       class="label top-left"
@@ -98,6 +93,7 @@ defineProps({
 .hud-frame {
   position: relative;
   background: transparent;
+  filter: var(--hud-halo);
 }
 
 .bracket {
@@ -110,16 +106,9 @@ defineProps({
 .bracket.bottom-left { bottom: 0; left: 0; transform: scaleY(-1); }
 .bracket.bottom-right { bottom: 0; right: 0; transform: scale(-1); }
 
-.border-top,
-.border-bottom,
-.border-left,
-.border-right {
-  display: none;
-}
-
 .label {
   @include hud-label-base;
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .label.top-left {

@@ -40,25 +40,29 @@ defineProps({
   font-size: var(--fs-500);
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--clr-neutral-50);
-  opacity: 0.5;
+  color: var(--clr-neutral-200);
+  contain: layout paint;
 }
 
 .recording-timer.recording {
-  opacity: 1;
+  color: var(--clr-neutral-50);
 }
 
-.rec {
+.rec,
+.mode,
+.time {
   color: inherit;
-}
-
-.rec.active {
-  color: var(--clr-error-100);
+  text-shadow: var(--hud-halo-text);
 }
 
 .mode,
 .time {
-  color: inherit;
   font-variant-numeric: tabular-nums;
+}
+
+.rec.active {
+  --hud-glow-color: var(--clr-error-100);
+  color: var(--clr-error-100);
+  text-shadow: var(--hud-halo-text), var(--hud-glow);
 }
 </style>

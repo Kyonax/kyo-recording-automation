@@ -24,7 +24,7 @@
   border-top: 1px solid var(--clr-border-100);
   font-family: var(--font-mono);
   font-size: var(--fs-275);
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   opacity: 0.6;

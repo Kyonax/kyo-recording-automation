@@ -169,7 +169,7 @@ const filtered_overlays = computed(() => {
   padding: 0.75em 1.5em;
   font-family: var(--font-mono);
   font-size: var(--fs-375);
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
   background: transparent;
   border: 1px solid transparent;
   border-bottom: none;
@@ -203,7 +203,7 @@ const filtered_overlays = computed(() => {
   min-width: 1.75em;
   padding: 0.05em 0.4em;
   font-size: var(--fs-175);
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
   border: 1px solid var(--clr-border-100);
   letter-spacing: 0.1em;
 }
@@ -272,7 +272,7 @@ const filtered_overlays = computed(() => {
 }
 
 .filter-input input::placeholder {
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
   opacity: 0.5;
 }
 
@@ -310,7 +310,7 @@ const filtered_overlays = computed(() => {
   font-family: var(--font-mono);
   font-size: var(--fs-175);
   letter-spacing: 0.2em;
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
   background: transparent;
   border: none;
   border-right: 1px solid var(--clr-border-100);
@@ -351,7 +351,7 @@ const filtered_overlays = computed(() => {
   text-align: center;
   font-family: var(--font-mono);
   font-size: var(--fs-375);
-  color: var(--clr-neutral-200);
+  color: var(--clr-neutral-100);
   letter-spacing: 0.1em;
   border: 1px dashed var(--clr-border-100);
 }

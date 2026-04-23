@@ -12,12 +12,6 @@ const RECONNECT_DELAY = 5000;
 
 let shared_state = null;
 
-/**
- * Composable — shared OBS WebSocket connection.
- * Singleton: every caller receives the same instance.
- * Auto-reconnects on disconnect. Subscribes to all events
- * including InputVolumeMeters (high-volume, opt-in).
- */
 export function useObsWebsocket() {
   if (shared_state) {
     return shared_state;
