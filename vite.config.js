@@ -51,6 +51,71 @@ const pkg = require('./package.json');
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DEV_SERVER_PORT = 5173;
 
+// Cross-process bridge for the context-screen control plane.
+// OBS browser source runs in its own embedded Chromium (CEF) process —
+// BroadcastChannel can't reach across processes, and Vite HMR custom
+// events proved unreliable in CEF (silent failure of the WebSocket
+// connection or the import.meta.hot handoff). HTTP polling + push is
+// universal: every browser process can fetch + POST the same endpoint.
+//
+// State is held in a closure on the dev server. GET returns current
+// state; POST replaces it. Composable polls at POLL_INTERVAL_MS for
+// freshness; pushes on every local action. ~300 ms p95 cross-process
+// latency, debuggable with `curl http://localhost:5173/__context_state`.
+const CONTEXT_STATE_PATH = '/__context_state';
+const context_relay_plugin = {
+  name: 'reckit-context-relay',
+  configureServer(server) {
+    let current_state = { active_slug: null, sidebar_open: false };
+
+    server.middlewares.use(CONTEXT_STATE_PATH, (req, res) => {
+      res.setHeader('Cache-Control', 'no-store');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+      if (req.method === 'OPTIONS') {
+        res.statusCode = 204;
+        res.end();
+        return;
+      }
+
+      if (req.method === 'GET') {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(current_state));
+        return;
+      }
+
+      if (req.method === 'POST') {
+        let body = '';
+        req.on('data', (chunk) => {
+          body += chunk;
+        });
+        req.on('end', () => {
+          try {
+            const parsed = JSON.parse(body);
+            if (parsed && typeof parsed === 'object') {
+              current_state = parsed;
+              res.statusCode = 204;
+              res.end();
+              return;
+            }
+            res.statusCode = 400;
+            res.end('invalid payload');
+          } catch {
+            res.statusCode = 400;
+            res.end('invalid json');
+          }
+        });
+        return;
+      }
+
+      res.statusCode = 405;
+      res.end();
+    });
+  },
+};
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -69,7 +134,7 @@ export default defineConfig({
       '@composables': resolve(ROOT, 'src/shared/composables'),
     },
   },
-  plugins: [vue()],
+  plugins: [vue(), context_relay_plugin],
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
   },

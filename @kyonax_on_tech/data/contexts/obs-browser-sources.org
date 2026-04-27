@@ -1,0 +1,75 @@
+#+TITLE: How OBS Browser Sources Work
+#+SUBTITLE: From WebSocket to Live HUD
+#+DESCRIPTION: A walkthrough of how RECKIT mounts Vue overlays into OBS scenes via the browser-source plugin, with focus on the audio-meter pipeline.
+#+TAGS: :obs:vue:websocket:audio:performance:
+
+#+begin_marquee
+WS over REST
+OBS scene tree
+Audio meter perf
+Direct DOM writes
+Float32Array hot path
+#+end_marquee
+
+* Mount Path
+
+OBS Studio loads each browser source as an isolated Chromium tab. The source URL points at a Vite dev server running locally; once mounted, the source can call into OBS WebSocket on port =4455= to read live state.
+
+The composable is a *module-level singleton* — N consumers share one subscription.
+
+#+begin_src javascript
+import { useObsWebsocket } from '@composables/use-obs-websocket.js';
+
+const { obs } = useObsWebsocket();
+obs.on('InputVolumeMeters', (event) => {
+  // 50 Hz audio levels — drive the HUD off this event
+});
+#+end_src
+
+* Audio-Meter Hot Path
+
+Bar transforms are written *directly to the DOM* via template refs — Vue reactivity is bypassed in the hot path.
+
+#+begin_src scss
+.audio-meter .bar {
+  transform: scaleY(var(--level));
+  transform-origin: bottom;
+  contain: layout paint;
+}
+#+end_src
+
+#+RESULTS:
+: 0 broad CSS filters
+: 0 per-frame allocations
+: 60 fps held on the test rig
+
+** Constraints (= must hold per session-file §1.14)
+
+- =transform= / =opacity= animations only
+- preallocated typed arrays (=Float32Array=)
+- precomputed =JITTER_TABLE= for jitter
+- write-threshold skip: =Math.abs(next - last) < 0.01= → no DOM write
+
+** Checklist before merging
+
+- [X] no =cyberpunk-glow= mixin reintroduction
+- [X] singleton composables
+- [ ] =composables.test.js= asserts singleton identity
+- [-] OBS smoke test (partially complete)
+
+* Why It Works
+
+| Technique                | Cost saved                | Reference            |
+|--------------------------+---------------------------+----------------------|
+| Singleton composables    | N→1 event subscriptions   | session §1.14.5      |
+| Direct DOM writes        | Vue reactivity bypass     | =<AudioMeter>=         |
+| =transform: scaleY()=    | layout / re-rasterization | session §1.14.3      |
+| =contain: layout paint=  | paint isolation           | session §1.14.4      |
+
+#+begin_quote
+fps wins. Every other rule below ranks under it.
+#+end_quote
+
+-----
+
+See [[https://obsproject.com/docs/sources][OBS source documentation]] for the broader context.

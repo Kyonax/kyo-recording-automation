@@ -1,0 +1,2 @@
+#+TITLE: Quick Note
+#+DESCRIPTION: Minimal context — title + description, no marquee block, no body. Marquee row collapses to zero height.
