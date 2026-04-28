@@ -153,14 +153,26 @@
       </div>
     </div>
 
-    <button
-      type="button"
-      class="detail-button"
-      @click="openDetail"
-    >
-      <span class="detail-icon">&#9670;</span>
-      <span class="detail-label">DETAILS</span>
-    </button>
+    <div class="card-secondary-actions">
+      <button
+        type="button"
+        class="detail-button"
+        @click="openDetail"
+      >
+        <span class="detail-icon">&#9670;</span>
+        <span class="detail-label">DETAILS</span>
+      </button>
+
+      <button
+        v-if="is_context_screen"
+        type="button"
+        class="detail-button detail-button--control"
+        @click="openControl"
+      >
+        <span class="detail-icon">&#9670;</span>
+        <span class="detail-label">CONTROLS</span>
+      </button>
+    </div>
 
     <PreviewModal
       :overlay="overlay"
@@ -175,10 +187,18 @@
       :is_open="is_detail_open"
       @close="closeDetail"
     />
+
+    <ContextControlModal
+      v-if="is_context_screen"
+      :overlay="overlay"
+      :is_open="is_control_open"
+      @close="closeControl"
+    />
   </article>
 </template>
 
 <script setup>
+import ContextControlModal from '@modals/context-control.vue';
 import DetailModal from '@modals/detail.vue';
 import PreviewModal from '@modals/preview.vue';
 import UiBadge from '@ui/badge.vue';
@@ -187,6 +207,8 @@ import UiDataPoint from '@ui/data-point.vue';
 import UiIcon from '@ui/icon.vue';
 import { parseEmphasis } from '@views/utils/markup.js';
 import { computed, ref } from 'vue';
+
+const CONTEXT_SCREEN_ID = 'context-screen';
 
 const COPIED_RESET_MS = 1500;
 const MAX_VISIBLE_USE_CASES = 3;
@@ -202,10 +224,15 @@ const props = defineProps({
 const is_copied = ref(false);
 const is_modal_open = ref(false);
 const is_detail_open = ref(false);
+const is_control_open = ref(false);
 const pending_trigger = ref(null);
 
 const is_planned = computed(() => {
   return props.overlay.status === 'planned';
+});
+
+const is_context_screen = computed(() => {
+  return props.overlay.id === CONTEXT_SCREEN_ID;
 });
 
 const description_segments = computed(() => {
@@ -264,6 +291,14 @@ function closeDetail() {
   is_detail_open.value = false;
 }
 
+function openControl() {
+  is_control_open.value = true;
+}
+
+function closeControl() {
+  is_control_open.value = false;
+}
+
 const full_url = computed(() => {
   return `${window.location.origin}${props.overlay.path}`;
 });
@@ -291,7 +326,7 @@ async function copyUrl() {
 .overlay-card {
   position: relative;
   padding: 1.75em 1.5em;
-  background: rgba(255, 215, 0, 0.02);
+  background: var(--clr-primary-100-02);
   border: 1px solid var(--clr-border-100);
   display: grid;
   grid-auto-rows: auto;
@@ -572,7 +607,7 @@ async function copyUrl() {
 .action-button:hover:not(:disabled) {
   color: var(--clr-primary-100);
   border-color: var(--clr-primary-100);
-  background: rgba(255, 215, 0, 0.04);
+  background: var(--clr-primary-100-04);
 }
 
 .action-button:disabled {
@@ -584,6 +619,11 @@ async function copyUrl() {
   color: var(--clr-primary-100);
   font-size: 0.9em;
   line-height: 1;
+}
+
+.card-secondary-actions {
+  display: flex;
+  gap: 0.5em;
 }
 
 .detail-button {
@@ -608,7 +648,13 @@ async function copyUrl() {
 .detail-button:hover {
   color: var(--clr-primary-100);
   border-color: var(--clr-primary-100);
-  background: rgba(255, 215, 0, 0.04);
+  background: var(--clr-primary-100-04);
+}
+
+.detail-button--control {
+  color: var(--clr-primary-100);
+  border-color: var(--clr-primary-100);
+  background: var(--clr-primary-100-04);
 }
 
 .detail-icon {

@@ -7,7 +7,7 @@
  * Validates brand metadata and web source schema.
  */
 
-import { BRANDS, SOURCES } from '@shared/brand-loader.js';
+import { BRANDS, CONTEXTS, getContexts, SOURCES } from '@shared/brand-loader.js';
 import { describe, expect, it } from 'vitest';
 
 const REQUIRED_SOURCE_FIELDS = [
@@ -154,4 +154,64 @@ describe('Brand loader — SOURCES', () => {
       expect(handles).toContain(source.brand);
     },
   );
+});
+
+describe('Brand loader — CONTEXTS', () => {
+  const BRAND_KOT = '@kyonax_on_tech';
+
+  it('exposes CONTEXTS as a brand-keyed object', () => {
+    expect(typeof CONTEXTS).toBe('object');
+    expect(CONTEXTS).not.toBe(null);
+  });
+
+  it(`discovers at least one context under ${BRAND_KOT}`, () => {
+    const kot = CONTEXTS[BRAND_KOT] || {};
+    expect(Object.keys(kot).length).toBeGreaterThan(0);
+  });
+
+  it('every context has { raw: string, parsed: object|null }', () => {
+    for (const brand of Object.keys(CONTEXTS)) {
+      for (const slug of Object.keys(CONTEXTS[brand])) {
+        const entry = CONTEXTS[brand][slug];
+        expect(typeof entry.raw).toBe('string');
+        expect(entry.raw.length).toBeGreaterThan(0);
+        expect(
+          entry.parsed === null || typeof entry.parsed === 'object',
+        ).toBe(true);
+      }
+    }
+  });
+
+  it('every parsed context (no parse_error) has the locked Q5 schema', () => {
+    for (const brand of Object.keys(CONTEXTS)) {
+      for (const slug of Object.keys(CONTEXTS[brand])) {
+        const entry = CONTEXTS[brand][slug];
+        if (entry.parse_error) {
+          continue;
+        }
+        expect(typeof entry.parsed.title).toBe('string');
+        expect(typeof entry.parsed.description).toBe('string');
+        expect(Array.isArray(entry.parsed.tags)).toBe(true);
+        expect(Array.isArray(entry.parsed.marquee_items)).toBe(true);
+        expect(Array.isArray(entry.parsed.body_ast)).toBe(true);
+      }
+    }
+  });
+
+  it('slugs are unique within each brand', () => {
+    for (const brand of Object.keys(CONTEXTS)) {
+      const slugs = Object.keys(CONTEXTS[brand]);
+      expect(new Set(slugs).size).toBe(slugs.length);
+    }
+  });
+
+  it('getContexts(handle) returns the per-brand map', () => {
+    const kot = getContexts(BRAND_KOT);
+    expect(typeof kot).toBe('object');
+    expect(Object.keys(kot).length).toBeGreaterThan(0);
+  });
+
+  it('getContexts(missing-handle) returns empty object', () => {
+    expect(getContexts('@no-such-brand')).toEqual({});
+  });
 });

@@ -182,12 +182,12 @@ const filtered_overlays = computed(() => {
 
 .brand-tab:hover {
   color: var(--clr-neutral-50);
-  background: rgba(255, 215, 0, 0.03);
+  background: var(--clr-primary-100-03);
 }
 
 .brand-tab.active {
   color: var(--clr-primary-100);
-  background: rgba(255, 215, 0, 0.06);
+  background: var(--clr-primary-100-06);
   border-color: var(--clr-border-100);
   border-bottom: 1px solid var(--clr-neutral-500);
 }
@@ -325,12 +325,12 @@ const filtered_overlays = computed(() => {
 
 .status-chip:hover {
   color: var(--clr-neutral-50);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--clr-neutral-50-04);
 }
 
 .status-chip.active {
   color: var(--clr-primary-100);
-  background: rgba(255, 215, 0, 0.06);
+  background: var(--clr-primary-100-06);
 }
 
 .chip-dot {

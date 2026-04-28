@@ -236,7 +236,7 @@ onUnmounted(() => {
 
 .modal-stage {
   padding: 1em;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--clr-neutral-50-04);
 }
 
 .stage-inner {
@@ -297,7 +297,7 @@ onUnmounted(() => {
 .action-button:hover {
   color: var(--clr-primary-100);
   border-color: var(--clr-primary-100);
-  background: rgba(255, 215, 0, 0.04);
+  background: var(--clr-primary-100-04);
 }
 
 .action-icon {
