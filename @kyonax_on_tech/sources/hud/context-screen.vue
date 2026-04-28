@@ -67,11 +67,11 @@
           </div>
         </template>
       </div>
-      <div class="context-marquee">
-        <div
-          v-if="marquee_doubled.length > 0"
-          class="context-marquee__items"
-        >
+      <div
+        v-if="marquee_doubled.length > 0"
+        class="context-marquee"
+      >
+        <div class="context-marquee__items">
           <span
             v-for="(item, index) in marquee_doubled"
             :key="index"
@@ -308,13 +308,33 @@ onUnmounted(() => {
 });
 </script>
 
+<style lang="scss">
+/*
+ * Page-scoped html font-size bump. The project's global stylesheet
+ * (src/app/scss/base/_global.scss) anchors `html` at `font-size: 12px`,
+ * which makes every rem-based --fs-* token render small inside the OBS
+ * 1920x1080 browser source (e.g. --fs-300 large = 1.25rem × 12 = 15px).
+ *
+ * `:has(.context-screen-overlay)` activates the override only when the
+ * overlay is in the document — true for the standalone OBS source AND
+ * inside the home preview iframe (each iframe owns its own `html` /
+ * `:root`). Other pages (home, cam-log) keep the 12px base.
+ *
+ * The `:has()` selector ships in Chromium 105+ — OBS 32.x CEF supports
+ * it. No JS required, no module-init side effects.
+ */
+html:has(.context-screen-overlay) {
+  font-size: 16px;
+}
+</style>
+
 <style scoped lang="scss">
 @use "@app/scss/abstracts/mixins" as *;
 
 .context-screen-overlay {
-  --strip-width-ratio: 0.62;
-  --strip-fs-scale: 0.85;
-  --sidebar-width-ratio: 0.38;
+  --strip-width-ratio: 0.66;
+  --strip-fs-scale: 0.95;
+  --sidebar-width-ratio: 0.34;
   position: fixed;
   inset: 0;
   width: 100%;
@@ -349,11 +369,11 @@ onUnmounted(() => {
 }
 
 .context-screen-overlay.context-sidebar-open .context-strip__subtitle {
-  font-size: calc(var(--fs-400) * var(--strip-fs-scale));
+  font-size: calc(var(--fs-425) * var(--strip-fs-scale));
 }
 
 .context-screen-overlay.context-sidebar-open .context-strip__description {
-  font-size: calc(var(--fs-300) * var(--strip-fs-scale));
+  font-size: calc(var(--fs-400) * var(--strip-fs-scale));
 }
 
 .context-strip {
@@ -364,13 +384,15 @@ onUnmounted(() => {
    * open. The sidebar's LEFT border owns that line; the strip drops
    * its right border so the two don't stack into a 2px visual. When
    * the sidebar is closed, the strip's right edge sits at the canvas
-   * right edge anyway, so no missing border is visible. */
+   * right edge anyway, so no missing border is visible.
+   * The strip's BOTTOM border is restored (the marquee's `border-top`
+   * is dropped below) so the strip carries the divider line itself. */
   border-right: none;
-  /* Top corners only — bottom is at the canvas edge. Pseudo-element
-   * squares overflow the border so they're visibly centered on the
-   * corner intersection. White squares pop on full-black bg. */
-  @include corner-square-tl(var(--clr-neutral-50));
-  @include corner-square-tr(var(--clr-neutral-50));
+  /* TR corner only — bottom is at the canvas edge; TL is intentionally
+   * dropped so the strip's left edge runs flush into the canvas without
+   * a visual dot. The pseudo-element square overflows the border so
+   * it's visibly centered on the corner intersection. */
+  @include corner-square-tr(var(--clr-neutral-100));
   padding: 2.4em 2em 1em 2em;
   display: flex;
   flex-direction: column;
@@ -385,15 +407,15 @@ onUnmounted(() => {
   font-size: var(--fs-700);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--clr-neutral-200);
+  letter-spacing: -0.04em;
+  color: var(--clr-neutral-100);
   text-shadow: var(--hud-halo-text);
   transition: font-size var(--motion-sidebar-ms) var(--motion-strip-ease);
 }
 
 .context-strip__subtitle {
   font-family: var(--font-display);
-  font-size: var(--fs-400);
+  font-size: var(--fs-425);
   font-weight: 400;
   letter-spacing: 0.02em;
   color: var(--clr-primary-100);
@@ -402,8 +424,8 @@ onUnmounted(() => {
 
 .context-strip__description {
   font-family: var(--font-mono);
-  font-size: var(--fs-300);
-  line-height: var(--fs-500);
+  font-size: var(--fs-400);
+  line-height: 1.25;
   color: var(--clr-neutral-200);
   transition: font-size var(--motion-sidebar-ms) var(--motion-strip-ease);
 }
@@ -440,10 +462,15 @@ onUnmounted(() => {
 .context-marquee {
   background-color: var(--clr-primary-100);
   color: var(--clr-neutral-500);
-  font-size: var(--fs-200);
-  line-height: var(--fs-400);
+  font-size: var(--fs-225);
+  line-height: var(--fs-425);
   width: 100%;
   overflow: hidden;
+  /* Bottom border closes the lower-third's lower edge with the same
+   * 1px line as the strip's outer borders. The top border is dropped
+   * because the strip above already owns the strip/marquee divider via
+   * its own `border-bottom` — stacking both would render a 2px line. */
+  border-bottom: 1px solid var(--clr-border-100);
   border-radius: 0;
   contain: layout paint;
 }
@@ -467,8 +494,8 @@ onUnmounted(() => {
 .context-marquee__item::after {
   content: '';
   display: inline-block;
-  width: 3px;
-  height: 3px;
+  width: 6px;
+  height: 6px;
   background: currentColor;
   margin: 0 1rem;
   flex-shrink: 0;
@@ -490,7 +517,7 @@ onUnmounted(() => {
   /* Top-left only — top-right + bottom-right are at the canvas edge,
    * bottom-left is dropped per design. White square overflows the
    * border so it sits centered on the intersection. */
-  @include corner-square-tl(var(--clr-neutral-50));
+  @include corner-square-tl(var(--clr-neutral-100));
   border-radius: 0;
   z-index: 100;
   display: flex;
@@ -521,6 +548,20 @@ onUnmounted(() => {
   flex-shrink: 0;
 }
 
+/* Sidebar header chip override — switches the chip to a quiet outline
+ * style so tags read as ambient context, not as a focal element.
+ * Smaller font, dimmer text (neutral-100 instead of neutral-50),
+ * transparent surface, and a low-alpha border (border-100 = white at
+ * 20%). Sits firmly in the 30% support tier of 60-30-10 — no surface
+ * pooling competes for attention with the body content below.
+ * Scoped via :deep(). */
+.context-sidebar__header :deep(.ui-chip) {
+  font-size: var(--fs-225);
+  color: var(--clr-neutral-100);
+  background-color: transparent;
+  border-color: var(--clr-border-100);
+}
+
 /*
  * Square at the LEFT end of the header separator line — interior
  * intersection of the separator + the sidebar's left edge. The right
@@ -534,7 +575,7 @@ onUnmounted(() => {
   left: -2.25px;
   width: 4.5px;
   height: 4.5px;
-  background-color: var(--clr-neutral-50);
+  background-color: var(--clr-neutral-100);
   pointer-events: none;
   z-index: 1;
 }
@@ -544,7 +585,13 @@ onUnmounted(() => {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 1.5em;
+  /* Tighter top/bottom — body content sits closer to the header rule
+   * and the canvas bottom edge. Horizontal padding unchanged. */
+  padding: 0.75em 1.5em;
+  /* Base text color lives here (not on `.org-content`) so the recursive
+   * `<UiOrgContent>` nested inside an `<.org-headline>` inherits the
+   * headline's primary-100 gold instead of overriding it. */
+  color: var(--clr-neutral-200);
   contain: layout paint;
   /* Hide native scrollbar — the lateral indicator replaces it visually,
    * scroll wheel + drag still work natively. */
@@ -568,9 +615,7 @@ onUnmounted(() => {
   height: 2.6em;
   background-color: var(--clr-neutral-500);
   border: 1px solid var(--clr-border-100);
-  @include corner-dots(var(--clr-border-100));
   border-radius: 0;
-  box-shadow: var(--hud-halo-text);
   color: var(--clr-primary-100);
   font-family: var(--font-mono);
   font-size: var(--fs-300);
