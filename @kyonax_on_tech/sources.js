@@ -44,6 +44,37 @@ export default [
     status: 'ready',
   },
   {
+    id: 'context-screen',
+    type: 'hud',
+    brand: '@kyonax_on_tech',
+    name: 'CONTEXT-SCREEN',
+    description:
+      'News-style **lower-third HUD** for the **CONTEXT scene**. '
+      + 'Surfaces the **video title**, a short **description**, '
+      + 'a **talking-point marquee**, and a **toggleable right '
+      + 'sidebar** that renders the **full parsed .org context** '
+      + '(headlines, lists, **checklists**, **tables**, **code '
+      + 'blocks**, **#+RESULTS evaluations**, links). Authored '
+      + 'per video as a small **.org file** in the brand folder.',
+    use_cases: [
+      'video context overlay',
+      'news-style lower third',
+      'topic outline',
+      'code walkthrough sidebar',
+      'talking-points reel',
+    ],
+    path: '/@kyonax_on_tech/context-screen',
+    width: CANVAS_WIDTH,
+    height: CANVAS_HEIGHT,
+    fps: TARGET_FPS,
+    requires: [
+      '.org files at @kyonax_on_tech/data/contexts/',
+      'BroadcastChannel-capable browser (OBS Chromium 32+)',
+    ],
+    triggers: [],
+    status: 'ready',
+  },
+  {
     id: 'item-explain',
     type: 'animation',
     brand: '@kyonax_on_tech',

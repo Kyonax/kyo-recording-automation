@@ -94,7 +94,7 @@
 }
 
 .setup-flow li:hover {
-  background: rgba(255, 215, 0, 0.04);
+  background: var(--clr-primary-100-04);
   color: var(--clr-neutral-50);
 }
 

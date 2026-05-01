@@ -146,3 +146,8 @@ temp/
 CLAUDE.md
 COMMIT.org
 PR.org
+
+# Personal context content — each contributor's own .org notes
+# loaded by <UiOrgContent> for live overlays. The rendering
+# plumbing is tracked; the content is private.
+@kyonax_on_tech/data/contexts/
